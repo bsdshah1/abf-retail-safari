@@ -113,6 +113,11 @@
   .panel-body .meta b{color:var(--ink);font-weight:700}
   .panel-body .best{font-size:13.5px;color:var(--muted);margin:0 0 15px;max-width:70ch}
   .panel-body .prompt{margin-left:0}
+  .asset-options{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px}
+  .asset-opt{background:#fff;border:1px solid var(--rule-strong);border-radius:8px;padding:20px 18px;text-align:center;cursor:default}
+  .asset-opt .opt-num{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .asset-opt .opt-label{font-family:var(--serif);font-size:17px;font-weight:600;line-height:1.2;color:var(--ink)}
+  @media(max-width:680px){.asset-options{grid-template-columns:repeat(2,1fr)}}
   .expand-row{display:flex;gap:14px;margin-bottom:22px}
   .expand-row button{font-family:var(--sans);background:transparent;border:1px solid var(--rule-strong);color:var(--ink-soft);border-radius:5px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
   .expand-row button:hover{border-color:var(--ink);color:var(--ink)}
@@ -254,6 +259,13 @@ Don't hand us the answer — play back what we're really onto in one line, ask t
     <div class="sec-head">
       <div class="eyebrow muted">Pick what sells your idea</div>
       <h2>Build the assets</h2>
+      <p class="sub" style="margin-top:8px">Things you can prompt for</p>
+    </div>
+    <div class="asset-options">
+      <div class="asset-opt"><div class="opt-num">Option 1</div><div class="opt-label">Newspaper / trade press article</div></div>
+      <div class="asset-opt"><div class="opt-num">Option 2</div><div class="opt-label">Product poster</div></div>
+      <div class="asset-opt"><div class="opt-num">Option 3</div><div class="opt-label">Landing page hero</div></div>
+      <div class="asset-opt"><div class="opt-num">Option 4</div><div class="opt-label">App concept screen</div></div>
     </div>
     <div class="expand-row"><button data-toggle="assets">Expand all</button></div>
 
