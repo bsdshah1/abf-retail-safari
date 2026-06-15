@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retail Safari</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#221c28;--crimson:#D6004F;--paper:#ffffff;--page:#f6f1f3;--rule:#e8e0e4;--rule-strong:#dccfd6;
+    --muted:#6a6473;--ink-soft:#4a4453;--code-bg:#221c28;--code-ink:#efeaf2;--amber:#f6c560;
+    --retail:#00B4E1;--grocery:#0CAF9E;--ingredients:#F4881C;--sugar:#B31572;--agri:#058E32;
+    --serif:'Fraunces',Georgia,serif;--sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--ink);background:var(--page);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:940px;margin:0 auto;padding:0 28px}
+  .eyebrow{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--crimson);display:flex;align-items:center;gap:9px}
+  .eyebrow::before{content:"";width:3px;height:14px;background:var(--crimson);display:inline-block;flex-shrink:0}
+  .eyebrow.muted{color:var(--muted)}
+  .eyebrow.muted::before{background:var(--rule-strong)}
+  .masthead{background:var(--paper);border-bottom:1px solid var(--rule)}
+  .masthead .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:16px;padding-bottom:16px}
+  .abf{font-family:var(--sans);font-weight:800;font-size:12px;color:var(--crimson);line-height:1.1}
+  .abf span{display:block;color:#c4bdbd;font-weight:600;font-size:9.5px}
+  .masthead .title{font-family:var(--serif);font-size:24px;font-weight:600;letter-spacing:.005em}
+  .fp{font-family:var(--sans);font-weight:800;font-size:16px;color:var(--ink);letter-spacing:-.01em}
+  header.hero{background:var(--paper);border-bottom:1px solid var(--rule)}
+  header.hero .wrap{padding:48px 28px 44px}
+  header.hero h1{font-family:var(--serif);font-size:54px;line-height:1.02;font-weight:600;letter-spacing:-.015em;margin:16px 0 18px;max-width:14ch}
+  header.hero .stand{font-size:17px;color:var(--ink-soft);max-width:60ch;line-height:1.6}
+  .steps{margin-top:30px;border-top:1px solid var(--rule);display:grid;grid-template-columns:repeat(3,1fr)}
+  .steps .s{padding:18px 22px 4px 0;border-right:1px solid var(--rule)}
+  .steps .s:last-child{border-right:none;padding-right:0}
+  .steps .n{font-family:var(--serif);font-size:30px;font-weight:600;color:var(--crimson);line-height:1}
+  .steps .s p{font-size:13.5px;color:var(--ink-soft);margin-top:8px;max-width:30ch}
+  .steps .s p b{color:var(--ink);font-weight:600}
+  nav{position:sticky;top:0;z-index:30;background:rgba(246,243,240,.92);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--rule)}
+  nav .wrap{display:flex;gap:30px;padding-top:14px;padding-bottom:14px}
+  nav a{font-family:var(--sans);text-decoration:none;font-size:13px;font-weight:600;color:var(--muted);padding-bottom:3px;border-bottom:2px solid transparent;transition:color .15s}
+  nav a:hover{color:var(--ink)}
+  nav a.on{color:var(--ink);border-bottom-color:var(--crimson)}
+  main{padding:52px 0 0}
+  section{margin-bottom:64px}
+  .sec-head{margin-bottom:26px}
+  .sec-head h2{font-family:var(--serif);font-size:30px;font-weight:600;letter-spacing:-.01em;margin-top:10px}
+  .primer{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:30px}
+  .primer h2{font-family:var(--serif);font-size:27px;font-weight:600;margin:10px 0 6px}
+  .primer .sub{color:var(--muted);font-size:14px;margin-bottom:20px;max-width:64ch;line-height:1.6}
+  .shift{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:28px;margin-bottom:16px;position:relative}
+  .shift.s1::before{background:var(--sugar)}
+  .shift.s2::before{background:var(--retail)}
+  .shift.s3::before{background:var(--grocery)}
+  .shift.s4::before{background:var(--ingredients)}
+  .shift.s5::before{background:var(--agri)}
+  .shift .topline{display:flex;align-items:baseline;gap:14px;margin-bottom:10px}
+  .shift .idx{font-family:var(--serif);font-size:15px;font-weight:600;color:var(--muted);min-width:24px}
+  .shift h3{font-family:var(--serif);font-size:25px;font-weight:600;line-height:1.1;letter-spacing:-.01em}
+  .shift .q{font-family:var(--serif);font-size:21px;font-style:italic;font-weight:400;color:var(--ink);margin:0 0 12px 38px;max-width:50ch;line-height:1.25}
+  .shift .lens{font-size:13.5px;color:var(--ink-soft);margin:0 0 16px 38px;max-width:70ch;line-height:1.6}
+  .shift .meta{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;margin:0 0 16px 38px}
+  .shift .meta b{color:var(--ink);font-weight:700}
+  .prompt{position:relative;background:var(--code-bg);color:var(--code-ink);border-radius:6px;padding:44px 18px 17px;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:12.5px;line-height:1.65;white-space:pre-wrap}
+  .shift .prompt{margin-left:0}
+  .prompt .lbl{color:#ff86ad;font-weight:700}
+  .prompt .fill{color:var(--amber);font-weight:600}
+  .copy{font-family:var(--sans);position:absolute;top:11px;right:12px;background:transparent;color:#cfc8d6;border:1px solid #4a4458;border-radius:5px;padding:5px 13px;font-size:11.5px;font-weight:600;letter-spacing:.03em;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+  .copy:hover{background:#fff;color:var(--ink);border-color:#fff}
+  .copy:focus-visible{outline:2px solid var(--crimson);outline-offset:2px}
+  .copy.done{background:transparent;color:#7fe0a6;border-color:#2f6b47}
+  .asset{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:26px;margin-bottom:16px}
+  .asset .ah{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:3px}
+  .asset h3{font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:-.01em}
+  .ship{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--crimson)}
+  .asset .best{font-size:13.5px;color:var(--muted);margin-bottom:15px;max-width:70ch}
+  .asset.rescue{background:#fbf6f4;border-style:dashed;border-color:var(--rule-strong)}
+  .divkey{display:flex;gap:22px;flex-wrap:wrap;margin:0 0 28px;padding:16px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .divkey .d{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--ink-soft)}
+  .divkey .sw{width:11px;height:11px;border-radius:2px;display:inline-block}
+  .caution{font-size:12.5px;color:var(--muted);margin-top:18px;padding-top:16px;border-top:1px solid var(--rule);line-height:1.6}
+  .caution b{color:var(--ink-soft);font-weight:600}
+
+  /* collapsible panels — shifts and assets */
+  details.panel{background:var(--paper);border:1px solid var(--rule);border-radius:6px;margin-bottom:16px;position:relative;overflow:hidden}
+  details.panel[open]{box-shadow:0 1px 0 rgba(34,28,40,.03)}
+  details.panel > summary{list-style:none;cursor:pointer;padding:22px 26px;display:flex;align-items:baseline;gap:13px;outline:none}
+  details.panel > summary::-webkit-details-marker{display:none}
+  details.panel > summary:focus-visible{box-shadow:inset 0 0 0 2px var(--crimson)}
+  .sum-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;align-self:center}
+  .panel.s1 .sum-dot{background:var(--sugar)}
+  .panel.s2 .sum-dot{background:var(--retail)}
+  .panel.s3 .sum-dot{background:var(--grocery)}
+  .panel.s4 .sum-dot{background:var(--ingredients)}
+  .panel.s5 .sum-dot{background:var(--agri)}
+  .sum-idx{font-family:var(--serif);font-size:15px;font-weight:600;color:var(--muted);min-width:24px}
+  .sum-title{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:-.01em;flex:1;line-height:1.15}
+  .sum-note{font-family:var(--sans);font-size:12.5px;color:var(--muted);font-weight:500;margin-left:4px}
+  .chev{margin-left:auto;align-self:center;width:22px;height:22px;flex-shrink:0;position:relative;transition:transform .2s ease}
+  .chev::before,.chev::after{content:"";position:absolute;top:10px;width:11px;height:2px;background:var(--muted);border-radius:2px;transition:transform .2s ease}
+  .chev::before{left:1px;transform:rotate(45deg)}
+  .chev::after{right:1px;transform:rotate(-45deg)}
+  details.panel[open] .chev{transform:rotate(180deg)}
+  .panel-body{padding:0 26px 26px}
+  details.panel.rescue{background:#fbf6f4;border-style:dashed;border-color:var(--rule-strong)}
+  .panel-body .q{font-family:var(--serif);font-size:20px;font-style:italic;font-weight:400;color:var(--ink);margin:0 0 12px;max-width:50ch;line-height:1.25}
+  .panel-body .lens{font-size:13.5px;color:var(--ink-soft);margin:0 0 14px;max-width:70ch;line-height:1.6}
+  .panel-body .meta{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;margin:0 0 16px}
+  .panel-body .meta b{color:var(--ink);font-weight:700}
+  .panel-body .best{font-size:13.5px;color:var(--muted);margin:0 0 15px;max-width:70ch}
+  .panel-body .prompt{margin-left:0}
+  .expand-row{display:flex;gap:14px;margin-bottom:22px}
+  .expand-row button{font-family:var(--sans);background:transparent;border:1px solid var(--rule-strong);color:var(--ink-soft);border-radius:5px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+  .expand-row button:hover{border-color:var(--ink);color:var(--ink)}
+  footer{margin-top:20px;border-top:1px solid var(--rule);background:var(--paper)}
+  footer .wrap{padding:22px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+  footer .f-left{font-family:var(--serif);font-size:15px;font-weight:600}
+  footer .f-right{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  @media(max-width:680px){
+    header.hero h1{font-size:38px}
+    .steps{grid-template-columns:1fr}
+    .steps .s{border-right:none;border-bottom:1px solid var(--rule);padding:16px 0}
+    .shift .q,.shift .lens,.shift .meta,.shift .prompt{margin-left:0}
+    nav .wrap{gap:20px;overflow-x:auto}
+  }
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="masthead"><div class="wrap">
+  <div class="abf">Associated British Foods<span>plc</span></div>
+  <div class="title">Retail Safari</div>
+  <div class="fp">Foolproof</div>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">From shop floor to pitch</div>
+  <h1>Bring your idea to life.</h1>
+  <p class="stand">You walked the safari and came back with an observation. Brief the AI with your shift, sharpen the idea on the canvas, then build the assets that win the room.</p>
+  <div class="steps">
+    <div class="s"><div class="n">1</div><p><b>Set up</b> — paste the set-up prompt into Copilot once.</p></div>
+    <div class="s"><div class="n">2</div><p><b>Brief</b> — copy your shift insight to give the AI its context.</p></div>
+    <div class="s"><div class="n">3</div><p><b>Build</b> — make the assets that sell the idea.</p></div>
+  </div>
+</div></header>
+
+<nav><div class="wrap">
+  <a href="#setup" class="on">Set-up</a>
+  <a href="#shifts">The five shifts</a>
+  <a href="#assets">Build assets</a>
+</div></nav>
+
+<main><div class="wrap">
+
+  <section id="setup">
+    <div class="primer">
+      <div class="eyebrow">Paste once, first</div>
+      <h2>The set-up prompt</h2>
+      <p class="sub">Gives Copilot the ABF context, the brand system, and a real quality bar — and sets it up as your design partner, so the output competes in the room instead of looking auto-generated.</p>
+      <div class="prompt"><button class="copy">Copy</button>You are our design and marketing partner for a fast innovation pitch. We give you an idea in a sentence or two; you bring it to life as assets that sell it to a room of senior ABF executives. If the idea we give you is rough or vague, sharpen it into one concrete thing first and tell us what you sharpened it to so we can correct you — never build off a vague idea. When a choice is open (which colour, which reference, which audience), propose your best answer rather than waiting for us to know. Read this, confirm in one line, then wait.
+
+<span class="lbl">WHO WE ARE</span>
+Associated British Foods (ABF) — a federated group of separate businesses: consumer brands (Primark, Twinings, Jordans/Ryvita, ACH Foods) and business-facing ones (AB Mauri bakery ingredients, AB Agri animal nutrition, ABF Sugar). We'll tell you which our idea is for.
+
+<span class="lbl">QUALITY BAR — apply to everything</span>
+Craft: things line up; spacing is deliberate; one clear type hierarchy; easy contrast and never grey text on a colour; no word stranded alone on a headline line; nothing cut off.
+One moment of delight, not ten: each asset earns ONE memorable thing — a surprising headline, a single striking visual, or a line with real personality. Don't scatter clever; pick one hook and land it.
+No AI slop: no filler copy ("unleash the power of", "in today's fast-paced world"), no lazy purple-blue gradient, no stock-template layout. If it could be for any product, it's not good enough.
+Triage: clear and correct first, beautiful second.
+
+<span class="lbl">BRAND — anchor visuals to the ABF division the idea serves</span>
+Retail/Primark = cyan #00B4E1 · Grocery (Twinings, Jordans, Ryvita, ACH) = teal #0CAF9E · Ingredients/AB Mauri = orange #F4881C · Sugar = magenta #B31572 · Agriculture/AB Agri = green #058E32. Use the division colour as the dominant hue, deep navy ink for text, white space to breathe. One colour dominates — never colour everything evenly.</div>
+      <p class="caution"><b>Responsible use.</b> These prompts haven't been formally evaluated — always check what the AI produces, it can get things wrong. Keep confidential or commercially sensitive ABF data out of the tool.</p>
+    </div>
+  </section>
+
+  <section id="shifts">
+    <div class="sec-head">
+      <div class="eyebrow muted">Copy yours to brief the AI</div>
+      <h2>The five shifts</h2>
+    </div>
+    <div class="expand-row"><button data-toggle="shifts">Expand all</button></div>
+
+    <details class="panel s1">
+      <summary><span class="sum-dot"></span><span class="sum-idx">01</span><span class="sum-title">GLP-1 Macro-Shift</span><span class="chev"></span></summary>
+      <div class="panel-body">
+        <p class="q">"Can I get the right nutrients with a smaller portion?"</p>
+        <p class="lens">30% of adults will use GLP-1 by 2030. Households on weight-loss medication cut overall grocery spend and shift toward premium, nutrient-dense items — high-quality proteins, single-serve functional foods — prioritising volume reduction over price.</p>
+        <p class="meta">Shopped at &nbsp;·&nbsp; <b>M&amp;S Simply Food</b></p>
+        <div class="prompt"><button class="copy">Copy</button>Our shift — GLP-1 Macro-Shift. The behaviour: people on GLP-1 medication buy less food but need more nutritional density per bite, shifting to premium single-serve and high-protein items. By 2030 ~30% of adults may use GLP-1. What we saw on the shop floor: <span class="fill">[your observation + what you bought]</span>. The unmet need we think this reveals: <span class="fill">[your rough answer]</span>. The ABF division this is for: <span class="fill">[brand]</span>.
+Don't hand us the answer — play back what we're really onto in one line, ask the one question that sharpens it, then wait.</div>
+      </div>
+    </details>
+
+    <details class="panel s2">
+      <summary><span class="sum-dot"></span><span class="sum-idx">02</span><span class="sum-title">App-Hopping for Dynamic Discounts</span><span class="chev"></span></summary>
+      <div class="panel-body">
+        <p class="q">"How do I know I'm getting the best price I can?"</p>
+        <p class="lens">Promo and coupon spend is outpacing full-price branded groceries. Shoppers stand in the aisle with several loyalty apps open at once, checking which store is firing a targeted personalised coupon before deciding where to scan and buy.</p>
+        <p class="meta">Shopped at &nbsp;·&nbsp; <b>Tesco Express</b></p>
+        <div class="prompt"><button class="copy">Copy</button>Our shift — App-Hopping for Dynamic Discounts. The behaviour: shoppers juggle multiple loyalty apps in the aisle, comparing live personalised coupons before choosing where to buy; promo spend is outpacing full-price branded groceries. What we saw on the shop floor: <span class="fill">[your observation + what you bought]</span>. The unmet need we think this reveals: <span class="fill">[your rough answer]</span>. The ABF division this is for: <span class="fill">[brand]</span>.
+Don't hand us the answer — play back what we're really onto in one line, ask the one question that sharpens it, then wait.</div>
+      </div>
+    </details>
+
+    <details class="panel s3">
+      <summary><span class="sum-dot"></span><span class="sum-idx">03</span><span class="sum-title">Zero-Waste</span><span class="chev"></span></summary>
+      <div class="panel-body">
+        <p class="q">"Can I eat great meals and waste nothing?"</p>
+        <p class="lens">Shoppers are adopting apps that track expiry dates on what they've bought, or suggest recipes from only what's left in the fridge — turning waste reduction into a routine, functional digital habit.</p>
+        <p class="meta">Shopped at &nbsp;·&nbsp; <b>Sainsbury's Local</b></p>
+        <div class="prompt"><button class="copy">Copy</button>Our shift — Zero-Waste. The behaviour: shoppers use apps to track expiry dates and cook from what's already in the fridge, making waste reduction a daily digital routine. What we saw on the shop floor: <span class="fill">[your observation + what you bought]</span>. The unmet need we think this reveals: <span class="fill">[your rough answer]</span>. The ABF division this is for: <span class="fill">[brand]</span>.
+Don't hand us the answer — play back what we're really onto in one line, ask the one question that sharpens it, then wait.</div>
+      </div>
+    </details>
+
+    <details class="panel s4">
+      <summary><span class="sum-dot"></span><span class="sum-idx">04</span><span class="sum-title">Vibe-Mathing</span><span class="chev"></span></summary>
+      <div class="panel-body">
+        <p class="q">"Will this give me the emotional lift I want for the price?"</p>
+        <p class="lens">62% of consumers are dropping logic-based value sums for emotional resonance. Spend is splitting two ways: deep-discounters for commodities, premium identity-aligned "dopamine treats" for the things that feel worth it. Austerity on staples, splurge on meaning.</p>
+        <p class="meta">Shopped at &nbsp;·&nbsp; <b>Whittard of Chelsea</b></p>
+        <div class="prompt"><button class="copy">Copy</button>Our shift — Vibe-Mathing. The behaviour: shoppers buy cheap on staples but splurge on premium "worth-it" treats that give an emotional or identity lift; value is felt, not calculated. What we saw on the shop floor: <span class="fill">[your observation + what you bought]</span>. The unmet need we think this reveals: <span class="fill">[your rough answer]</span>. The ABF division this is for: <span class="fill">[brand]</span>.
+Don't hand us the answer — play back what we're really onto in one line, ask the one question that sharpens it, then wait.</div>
+      </div>
+    </details>
+
+    <details class="panel s5">
+      <summary><span class="sum-dot"></span><span class="sum-idx">05</span><span class="sum-title">Sustainability Cynicism</span><span class="chev"></span></summary>
+      <div class="panel-body">
+        <p class="q">"Can I trust this is actually good for the planet?"</p>
+        <p class="lens">Deep fatigue and scepticism toward corporate green messaging and eco price premiums. Shoppers want proof over promises — verifiable longevity, transparency, data-backed claims — not vague "eco-friendly" labels.</p>
+        <p class="meta">Shopped at &nbsp;·&nbsp; <b>Holland &amp; Barrett</b></p>
+        <div class="prompt"><button class="copy">Copy</button>Our shift — Sustainability Cynicism. The behaviour: shoppers have been burned by greenwashing and now demand proof over promises — verifiable, transparent, data-backed sustainability, not vague eco claims. What we saw on the shop floor: <span class="fill">[your observation + what you bought]</span>. The unmet need we think this reveals: <span class="fill">[your rough answer]</span>. The ABF division this is for: <span class="fill">[brand]</span>.
+Don't hand us the answer — play back what we're really onto in one line, ask the one question that sharpens it, then wait.</div>
+      </div>
+    </details>
+  </section>
+
+  <section id="assets">
+    <div class="sec-head">
+      <div class="eyebrow muted">Pick what sells your idea</div>
+      <h2>Build the assets</h2>
+    </div>
+    <div class="divkey">
+      <span class="d"><span class="sw" style="background:var(--retail)"></span>Retail · cyan</span>
+      <span class="d"><span class="sw" style="background:var(--grocery)"></span>Grocery · teal</span>
+      <span class="d"><span class="sw" style="background:var(--ingredients)"></span>Ingredients · orange</span>
+      <span class="d"><span class="sw" style="background:var(--sugar)"></span>Sugar · magenta</span>
+      <span class="d"><span class="sw" style="background:var(--agri)"></span>Agriculture · green</span>
+    </div>
+    <div class="expand-row"><button data-toggle="assets">Expand all</button></div>
+
+    <details class="panel">
+      <summary><span class="sum-title">Product poster</span><span class="chev"></span></summary>
+      <div class="panel-body">
+        <p class="best">Best for a consumer product or pack you want people to see. Two steps: shape, then build.</p>
+        <div class="prompt"><button class="copy">Copy</button>STEP 1 — shape the look (send first):
+Our idea: <span class="fill">[it — a rough sentence is fine]</span>. Division: <span class="fill">[brand, or "you pick the best fit"]</span>.
+First, if our idea is vague, sharpen it into one concrete product a customer could actually buy or use — and tell us in one line what you sharpened it to, so we can correct you. Then propose the direction yourself, don't wait for us to know: which ABF division colour anchors the palette, and ONE named real-world reference whose look to match (a specific brand or pack we'd recognise, not adjectives like "clean" or "modern"). Ask us to confirm or swap.
+
+STEP 2 — build (after we confirm):
+Build one PowerPoint slide as a product poster using the sharpened idea and agreed direction. Big bold headline (what it does for people, under 8 words), short subhead, three benefit lines, a clear labelled space for the product image. Division colour with navy ink, styled like the named reference.
+Run the QUALITY BAR over it — craft, one delightful hook, no slop — and fix anything that fails before showing us. One slide.</div>
+      </div>
+    </details>
+
+    <details class="panel">
+      <summary><span class="sum-title">Newspaper / trade headline</span><span class="chev"></span></summary>
+      <div class="panel-body">
+        <p class="best">Best for proving the idea is newsworthy. Trade press for B2B, consumer press for B2C.</p>
+        <div class="prompt"><button class="copy">Copy</button>Our idea: <span class="fill">[it — rough is fine]</span>. Division: <span class="fill">[brand, or "you pick"]</span>. Publication: <span class="fill">[trade e.g. The Grocer / consumer, or "you choose what fits"]</span>.
+If our idea is vague, sharpen it to one concrete thing first and tell us what you sharpened it to. Pick the right publication for the audience if we didn't. Then write the front-page headline and standfirst that would run if this launched and worked — the way that publication actually writes. A punchy version and a serious version. Then lay the winning one out as one mock front-page slide: masthead, headline, standfirst, captioned image space, division colour with navy ink.
+Self-check: reads like real journalism not a slogan; no overclaiming; strong hierarchy; one memorable hook; nothing cut off; no AI-slop phrasing.</div>
+      </div>
+    </details>
+
+    <details class="panel">
+      <summary><span class="sum-title">Social post</span><span class="chev"></span></summary>
+      <div class="panel-body">
+        <p class="best">Best for a consumer idea that lives or dies in the feed.</p>
+        <div class="prompt"><button class="copy">Copy</button>STEP 1 — shape (send first):
+Our idea: <span class="fill">[it — rough is fine]</span>. Division: <span class="fill">[brand, or "you pick"]</span>. Platform: <span class="fill">[Instagram / TikTok / LinkedIn, or "you choose what fits the audience"]</span>.
+If our idea is vague, sharpen it first and tell us what to. Then propose, don't wait: the one visual hook that would stop the scroll, and one named creator or brand account whose style to echo. Ask us to confirm or swap.
+
+STEP 2 — build:
+Build a single social post mock for that platform, built around the division colour: the scroll-stopping visual described or laid out, the caption in the brand's voice, a clear call to action. Native to the platform, not a corporate ad dropped in.
+Self-check: would a real person stop on this; voice matches the brand; one scroll-stopping hook; no slop gradient or filler caption.</div>
+      </div>
+    </details>
+
+    <details class="panel">
+      <summary><span class="sum-title">Name &amp; tagline</span><span class="chev"></span></summary>
+      <div class="panel-body">
+        <p class="best">Best for any idea that needs an identity to feel real.</p>
+        <div class="prompt"><button class="copy">Copy</button>Our idea: <span class="fill">[it — rough is fine]</span>. Division: <span class="fill">[brand, or "you pick"]</span>.
+If our idea is vague, sharpen it to one concrete thing first and tell us what to. Then give us five name options and a tagline for each — safe to bold. One line each on why it works. Rank them, then ask which direction we lean before refining.
+Hold this bar: names you could say out loud and put on a pack, not portmanteau word-salad; the tagline says what it does for people, with one memorable turn of phrase — no generic slop.</div>
+      </div>
+    </details>
+
+    <details class="panel">
+      <summary><span class="sum-title">Concept ad — a 15-second idea</span><span class="chev"></span></summary>
+      <div class="panel-body">
+        <p class="best">Best for an idea with an emotional or story angle.</p>
+        <div class="prompt"><button class="copy">Copy</button>Our idea: <span class="fill">[it — rough is fine]</span>. Division: <span class="fill">[brand, or "you pick"]</span>.
+If our idea is vague, sharpen it to one concrete thing first and tell us what to. Then write a 15-second ad concept: opening shot, what happens, the line it ends on. Then describe the single key frame in enough detail to picture on screen, and lay it out as one slide in the division's colour with the end line as the headline.
+Self-check: tells a story in one move, not a feature list; the end line lands; division colour dominant, one strong image idea that carries it; no slop.</div>
+      </div>
+    </details>
+
+    <details class="panel">
+      <summary><span class="sum-title">Mini landing page</span><span class="chev"></span></summary>
+      <div class="panel-body">
+        <p class="best">Best for a service or digital idea.</p>
+        <div class="prompt"><button class="copy">Copy</button>STEP 1 — shape (send first):
+Our idea: <span class="fill">[it — rough is fine]</span>. Division: <span class="fill">[brand, or "you pick"]</span>.
+If our idea is vague, sharpen it first and tell us what to. Then propose, don't wait: the one promise the hero should make, and one named reference site whose feel to match. Ask us to confirm or swap.
+
+STEP 2 — build:
+Build a one-screen landing page mock anchored to the division colour: hero with the promise as headline, a short "why it matters" line, three benefits, one clear call-to-action button. Styled like the reference, not a generic SaaS page.
+Self-check: dominant colour with sparing accent; the CTA is the most prominent thing after the headline; real readable contrast; one clear hook; one screen, nothing cut off.</div>
+      </div>
+    </details>
+
+    <details class="panel">
+      <summary><span class="sum-title">The two-minute pitch</span><span class="chev"></span></summary>
+      <div class="panel-body">
+        <p class="best">For every team, at the end. What you stand up and say to win.</p>
+        <div class="prompt"><button class="copy">Copy</button>Our canvas — shift: <span class="fill">[..]</span>; idea: <span class="fill">[..]</span>; assets we made: <span class="fill">[list]</span>; how we'd experiment to prove it: <span class="fill">[..]</span>.
+Draft a 2-minute spoken pitch: hook with the real shift we saw, present the idea, show how the assets bring it to life, say how we'd prove it's worth pursuing, close on why ABF should back us over the other teams. Short sentences, open and close land hard. Stay true to our canvas — don't inflate it. Then ask which line feels least true, and help fix it.
+Optional deck: four slides, one idea each, division colour, minimal text. Self-check against the QUALITY BAR before showing.</div>
+      </div>
+    </details>
+
+    <details class="panel rescue">
+      <summary><span class="sum-title">If an asset comes out weak — rescue it</span><span class="chev"></span></summary>
+      <div class="panel-body">
+        <p class="best">When something isn't good enough to win in front of CIOs.</p>
+        <div class="prompt"><button class="copy">Copy</button>That's not good enough to win in front of CIOs yet. Tell us honestly what's making it look amateur — the idea, the copy, the layout, or the lack of a strong visual? Pick the single biggest problem, tell us what a great version would do differently, and rebuild it to that bar.</div>
+      </div>
+    </details>
+  </section>
+
+</div></main>
+
+<footer><div class="wrap">
+  <span class="f-left">Retail Safari</span>
+  <span class="f-right">Empathise → choose → buy → ideate → pitch</span>
+</div></footer>
+
+<script>
+  document.querySelectorAll('.copy').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=b.parentElement.innerText.replace(/^Copy\s*/,'').trim();
+      navigator.clipboard.writeText(t).then(function(){
+        var o=b.textContent;b.textContent='Copied';b.classList.add('done');
+        setTimeout(function(){b.textContent=o;b.classList.remove('done')},1500);
+      });
+    });
+  });
+  // expand / collapse all within a section
+  document.querySelectorAll('.expand-row button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var sec=document.getElementById(btn.getAttribute('data-toggle'));
+      var panels=[].slice.call(sec.querySelectorAll('details.panel'));
+      var anyClosed=panels.some(function(p){return !p.open;});
+      panels.forEach(function(p){p.open=anyClosed;});
+      btn.textContent=anyClosed?'Collapse all':'Expand all';
+    });
+  });
+  // a nav click to a section opens its panels so the user lands on content, not just titles
+  document.querySelectorAll('nav a').forEach(function(a){
+    a.addEventListener('click',function(){
+      var id=a.getAttribute('href').slice(1);
+      var sec=document.getElementById(id);
+      if(sec){var r=sec.querySelector('.expand-row button');}
+    });
+  });
+  var secs=[].slice.call(document.querySelectorAll('section[id]'));
+  var links=[].slice.call(document.querySelectorAll('nav a'));
+  function onScroll(){
+    var y=window.scrollY+120,cur=secs[0].id;
+    secs.forEach(function(s){if(s.offsetTop<=y)cur=s.id;});
+    links.forEach(function(l){l.classList.toggle('on',l.getAttribute('href')==='#'+cur);});
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+</script>
+</body>
+</html>
