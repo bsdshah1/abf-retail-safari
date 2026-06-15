@@ -31,6 +31,10 @@
   .fp svg{width:108px;display:block}
   header.hero{background:var(--paper);border-bottom:1px solid var(--rule)}
   header.hero .wrap{padding:48px 28px 44px}
+  .hero-top{display:flex;align-items:center;gap:40px}
+  .hero-text{flex:1;min-width:0}
+  .hero-img{flex:0 0 320px}
+  .hero-img img{width:100%;height:auto;display:block}
   header.hero h1{font-family:var(--serif);font-size:54px;line-height:1.02;font-weight:600;letter-spacing:-.015em;margin:16px 0 18px;max-width:14ch}
   header.hero .stand{font-size:17px;color:var(--ink-soft);max-width:60ch;line-height:1.6}
   .steps{margin-top:30px;border-top:1px solid var(--rule);display:grid;grid-template-columns:repeat(3,1fr)}
@@ -118,6 +122,8 @@
   footer .f-right{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
   @media(max-width:680px){
     header.hero h1{font-size:38px}
+    .hero-top{flex-direction:column;gap:24px}
+    .hero-img{flex:0 0 auto;max-width:280px}
     .steps{grid-template-columns:1fr}
     .steps .s{border-right:none;border-bottom:1px solid var(--rule);padding:16px 0}
     .shift .q,.shift .lens,.shift .meta,.shift .prompt{margin-left:0}
@@ -135,16 +141,21 @@
 </div></div>
 
 <header class="hero"><div class="wrap">
-  <div class="eyebrow">From shop floor to pitch</div>
-  <h1>Bring your idea to life.</h1>
-  <p class="stand">You walked the safari and came back with an observation. Brief the AI with your shift, sharpen the idea on the canvas, then build the assets that win the room.</p>
+  <div class="hero-top">
+    <div class="hero-text">
+      <div class="eyebrow">From shop floor to pitch</div>
+      <h1>Bring your idea to life.</h1>
+      <p class="stand">You walked the safari and came back with an observation. Brief the AI with your shift, sharpen the idea on the canvas, then build the assets that win the room.</p>
+    </div>
+    <div class="hero-img"><img src="assets/Stuck at Home Home Office.png" alt="Team collaborating on ideas"></div>
+  </div>
   <div class="steps">
     <div class="s"><div class="n">1</div><p><b>Set up</b> — paste the set-up prompt into Copilot once.</p></div>
     <div class="s"><div class="n">2</div><p><b>Brief</b> — copy your shift insight to give the AI its context.</p></div>
     <div class="s"><div class="n">3</div><p><b>Build</b> — make the assets that sell the idea.</p></div>
   </div>
   <p class="caution" style="margin-top:22px"><b>Responsible use.</b> These prompts haven't been formally evaluated — always check what the AI produces, it can get things wrong. Keep confidential or commercially sensitive ABF data out of the tool.</p>
-  <p class="caution"><b>Look for the <span style="color:var(--amber);font-weight:700">[yellow fields]</span>.</b> Every prompt has highlighted placeholders where you fill in your own observation, brand, or idea. Replace each one with what you actually saw on the shop floor — the more specific you are, the better the AI's output will be.</p>
+  <p class="caution"><b>Look for the <span style="color:var(--amber);font-weight:700">[yellow fields]</span>.</b> Every prompt has highlighted placeholders where you fill in your own details — your shop-floor observation, your brand, your idea, your pitch angle. You'll use them when briefing a shift, creating ideas, and building assets like pitch decks. Replace each one with something specific to your team — the more detail you give, the better the AI's output will be.</p>
 </div></header>
 
 <nav><div class="wrap">
@@ -159,7 +170,7 @@
     <div class="primer">
       <div class="eyebrow">Paste once, first</div>
       <h2>The set-up prompt</h2>
-      <p class="sub">Gives Copilot the ABF context, the brand system, and a real quality bar — and sets it up as your design partner, so the output competes in the room instead of looking auto-generated.</p>
+      <p class="sub">Gives Copilot the ABF context, the brand system, and a real quality bar — and sets it up as your design partner, so the output competes in the room instead of looking auto-generated. If you're using Copilot Cowork, you can save this as your project instructions so it's loaded automatically every time.</p>
       <div class="prompt"><button class="copy">Copy</button>You are our design and marketing partner for a fast innovation pitch. We give you an idea in a sentence or two; you bring it to life as assets that sell it to a room of senior ABF executives. If the idea we give you is rough or vague, sharpen it into one concrete thing first and tell us what you sharpened it to so we can correct you — never build off a vague idea. When a choice is open (which colour, which reference, which audience), propose your best answer rather than waiting for us to know. Read this, confirm in one line, then wait.
 
 <span class="lbl">WHO WE ARE</span>
