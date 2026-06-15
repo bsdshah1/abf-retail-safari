@@ -31,6 +31,10 @@
   .fp svg{width:108px;display:block}
   header.hero{background:var(--paper);border-bottom:1px solid var(--rule)}
   header.hero .wrap{padding:48px 28px 44px}
+  .hero-top{display:flex;align-items:center;gap:40px}
+  .hero-text{flex:1;min-width:0}
+  .hero-img{flex:0 0 320px}
+  .hero-img img{width:100%;height:auto;display:block}
   header.hero h1{font-family:var(--serif);font-size:54px;line-height:1.02;font-weight:600;letter-spacing:-.015em;margin:16px 0 18px;max-width:14ch}
   header.hero .stand{font-size:17px;color:var(--ink-soft);max-width:60ch;line-height:1.6}
   .steps{margin-top:30px;border-top:1px solid var(--rule);display:grid;grid-template-columns:repeat(3,1fr)}
@@ -118,6 +122,8 @@
   footer .f-right{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
   @media(max-width:680px){
     header.hero h1{font-size:38px}
+    .hero-top{flex-direction:column;gap:24px}
+    .hero-img{flex:0 0 auto;max-width:280px}
     .steps{grid-template-columns:1fr}
     .steps .s{border-right:none;border-bottom:1px solid var(--rule);padding:16px 0}
     .shift .q,.shift .lens,.shift .meta,.shift .prompt{margin-left:0}
@@ -135,9 +141,14 @@
 </div></div>
 
 <header class="hero"><div class="wrap">
-  <div class="eyebrow">From shop floor to pitch</div>
-  <h1>Bring your idea to life.</h1>
-  <p class="stand">You walked the safari and came back with an observation. Brief the AI with your shift, sharpen the idea on the canvas, then build the assets that win the room.</p>
+  <div class="hero-top">
+    <div class="hero-text">
+      <div class="eyebrow">From shop floor to pitch</div>
+      <h1>Bring your idea to life.</h1>
+      <p class="stand">You walked the safari and came back with an observation. Brief the AI with your shift, sharpen the idea on the canvas, then build the assets that win the room.</p>
+    </div>
+    <div class="hero-img"><img src="hero-illustration.svg" alt="Team collaborating on ideas"></div>
+  </div>
   <div class="steps">
     <div class="s"><div class="n">1</div><p><b>Set up</b> — paste the set-up prompt into Copilot once.</p></div>
     <div class="s"><div class="n">2</div><p><b>Brief</b> — copy your shift insight to give the AI its context.</p></div>
