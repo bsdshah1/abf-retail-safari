@@ -22,12 +22,13 @@
   .eyebrow::before{content:"";width:3px;height:14px;background:var(--crimson);display:inline-block;flex-shrink:0}
   .eyebrow.muted{color:var(--muted)}
   .eyebrow.muted::before{background:var(--rule-strong)}
-  .masthead{background:var(--paper);border-bottom:1px solid var(--rule)}
-  .masthead .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:16px;padding-bottom:16px}
-  .abf{font-family:var(--sans);font-weight:800;font-size:12px;color:var(--crimson);line-height:1.1}
-  .abf span{display:block;color:#c4bdbd;font-weight:600;font-size:9.5px}
-  .masthead .title{font-family:var(--serif);font-size:24px;font-weight:600;letter-spacing:.005em}
-  .fp{font-family:var(--sans);font-weight:800;font-size:16px;color:var(--ink);letter-spacing:-.01em}
+  .masthead{background:#ffffff;border-bottom:1px solid #E0E0E0}
+  .masthead .wrap{display:flex;flex-direction:row;align-items:center;justify-content:space-between;padding:12px 32px;max-width:595px;height:56px}
+  .abf{width:64px;height:32px;flex-shrink:0}
+  .abf svg{width:64px;height:32px;display:block}
+  .masthead .title{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.15;letter-spacing:-.015em;color:#1A1A1A}
+  .fp{width:69px;height:16px;flex-shrink:0}
+  .fp svg{width:69px;height:16px;display:block}
   header.hero{background:var(--paper);border-bottom:1px solid var(--rule)}
   header.hero .wrap{padding:48px 28px 44px}
   header.hero h1{font-family:var(--serif);font-size:54px;line-height:1.02;font-weight:600;letter-spacing:-.015em;margin:16px 0 18px;max-width:14ch}
@@ -131,9 +132,9 @@
 <body>
 
 <div class="masthead"><div class="wrap">
-  <div class="abf">Associated British Foods<span>plc</span></div>
+  <div class="abf"><svg viewBox="0 0 64 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="32" fill="#000"/><g fill="#D0043C"><rect x=".4" y="7.8" width="5.2" height="1.6" rx=".4"/><rect x="6.6" y="9.4" width="3.6" height="1.6" rx=".4"/><rect x="11" y="7.4" width="1.7" height="2.2" rx=".4"/><rect x="13.5" y="8.2" width="4.2" height="1.5" rx=".4"/><rect x="18.6" y="7.4" width="1.7" height="2.2" rx=".4"/><rect x="21" y="9.4" width="4.3" height="1.5" rx=".4"/><rect x="26.2" y="7.4" width="5" height="2.2" rx=".4"/><rect x="35.7" y="7.8" width="4.3" height="1.6" rx=".4"/><rect x="40.3" y="9.4" width="5.6" height="1.5" rx=".4"/><rect x="46.7" y="9.4" width="5.6" height="1.5" rx=".4"/><rect x="53.1" y="7.4" width="5.2" height="2.2" rx=".4"/><rect x="59.2" y="9.4" width="4.3" height="1.5" rx=".4"/><rect x="-.1" y=".2" width="7.2" height="2.4" rx=".4"/><rect x="7.5" y="1.3" width="4.3" height="2" rx=".4"/><rect x="12.4" y="1.3" width="4.3" height="2" rx=".4"/><rect x="17.5" y="1.3" width="5.6" height="2" rx=".4"/><rect x="23.9" y="1.3" width="4.7" height="2" rx=".4"/><rect x="29.5" y="-.3" width="1.6" height="2.7" rx=".4"/><rect x="32" y="1.3" width="4.9" height="2" rx=".4"/><rect x="37.6" y=".4" width="4.2" height="2.4" rx=".4"/><rect x="42.3" y="1.3" width="5.1" height="2" rx=".4"/><rect x="48.2" y="-.3" width="5.2" height="2.6" rx=".4"/></g><g fill="#9B9A9A"><rect x=".4" y="13" width="5.2" height="1.7" rx=".4"/><rect x="6.5" y="11.4" width="2.4" height="2" rx=".4"/><rect x="9.1" y="13" width="4.7" height="1.5" rx=".4"/></g></svg></div>
   <div class="title">Retail Safari</div>
-  <div class="fp">Foolproof</div>
+  <div class="fp"><svg viewBox="0 0 69 16" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="0" y="12" font-family="'Inter',sans-serif" font-weight="800" font-size="13" fill="#2D2D2D" letter-spacing="-.01em">Foolproof</text></svg></div>
 </div></div>
 
 <header class="hero"><div class="wrap">
