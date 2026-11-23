@@ -112,7 +112,8 @@
   .panel-body .meta b{color:var(--ink);font-weight:700}
   .panel-body .best{font-size:13.5px;color:var(--muted);margin:0 0 15px;max-width:70ch}
   .panel-body .prompt{margin-left:0}
-  .panel-body .prompt + .prompt{margin-top:12px}
+  .step-label{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
+  .sec-head .sub{color:var(--muted);font-size:14px;margin-top:8px;max-width:64ch;line-height:1.6}
   .helper-heading{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:36px 0 16px;padding-top:20px;border-top:1px solid var(--rule)}
   .expand-row{display:flex;gap:14px;margin-bottom:22px}
   .expand-row button{font-family:var(--sans);background:transparent;border:1px solid var(--rule-strong);color:var(--ink-soft);border-radius:5px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
@@ -171,20 +172,19 @@
     <div class="primer">
       <div class="eyebrow">Paste once, first</div>
       <h2>The set-up prompt</h2>
-      <p class="sub">Gives Copilot the ABF context, the brand system, and a real quality bar — and sets it up as your design partner, so the output competes in the room instead of looking auto-generated. If you're using Copilot Cowork, you can save this as your project instructions so it's loaded automatically every time.</p>
-      <div class="prompt"><button class="copy">Copy</button>You are our design and marketing partner for the ABF CIO Summit workshop, Consumer Driven Innovation. We give you an idea in a sentence or two; you bring it to life as assets that sell it to a room of ABF's CIOs. They are technology leaders: every asset should show what the idea does for the consumer and make clear, in plain words, the technology or data that makes it possible. If the idea we give you is rough or vague, sharpen it into one concrete thing first and tell us what you sharpened it to so we can correct you — never build off a vague idea. When a choice is open (which colour, which reference, which audience), propose your best answer rather than waiting for us to know. Read this, confirm in one line, then wait.
+      <p class="sub">Gives Copilot the ABF context, the brand colours and how to work with your team. If you're using Copilot Cowork, you can save this as your project instructions so it's loaded automatically every time.</p>
+      <div class="prompt"><button class="copy">Copy</button>You are our creative partner at the ABF CIO Summit workshop, Consumer Driven Innovation. We will give you a consumer idea, and you help us turn it into pitch assets for a room of ABF's CIOs.
 
 <span class="lbl">WHO WE ARE</span>
-Associated British Foods (ABF) — a federated group of separate businesses: consumer brands (Primark, Twinings, Jordans/Ryvita, ACH Foods) and business-facing ones (AB Mauri bakery ingredients, AB Agri animal nutrition, ABF Sugar). We'll tell you which our idea is for.
+Associated British Foods (ABF) is a group of separate businesses: consumer brands (Primark, Twinings, Jordans, Ryvita, ACH Foods) and business-facing ones (AB Mauri bakery ingredients, AB Agri animal nutrition, ABF Sugar).
 
-<span class="lbl">QUALITY BAR — apply to everything</span>
-Craft: things line up; spacing is deliberate; one clear type hierarchy; easy contrast and never grey text on a colour; no word stranded alone on a headline line; nothing cut off.
-One moment of delight, not ten: each asset earns ONE memorable thing — a surprising headline, a single striking visual, or a line with real personality. Don't scatter clever; pick one hook and land it.
-No AI slop: no filler copy ("unleash the power of", "in today's fast-paced world"), no lazy purple-blue gradient, no stock-template layout. If it could be for any product, it's not good enough.
-Triage: clear and correct first, beautiful second.
+<span class="lbl">HOW TO WORK WITH US</span>
+Write in plain, concrete language a shopper would use. Give every asset one memorable hook. Show what the idea does for the consumer, and name in one plain phrase the technology or data behind it. If our idea is vague, sharpen it into one concrete thing and tell us what you changed. When a choice is open, propose your best answer.
 
-<span class="lbl">BRAND — anchor visuals to the ABF division the idea serves</span>
-Retail/Primark = cyan #00B4E1 · Grocery (Twinings, Jordans, Ryvita, ACH) = teal #0CAF9E · Ingredients/AB Mauri = orange #F4881C · Sugar = magenta #B31572 · Agriculture/AB Agri = green #058E32. Use the division colour as the dominant hue, deep navy ink for text, white space to breathe. One colour dominates — never colour everything evenly.</div>
+<span class="lbl">BRAND COLOURS — use the colour of the division the idea serves</span>
+Retail / Primark: cyan #00B4E1 · Grocery (Twinings, Jordans, Ryvita, ACH): teal #0CAF9E · Ingredients / AB Mauri: orange #F4881C · Sugar: magenta #B31572 · Agriculture / AB Agri: green #058E32. Pair it with deep navy and plenty of white space.
+
+Reply with one line to confirm you're ready, then wait.</div>
     </div>
   </section>
 
@@ -201,9 +201,12 @@ Retail/Primark = cyan #00B4E1 · Grocery (Twinings, Jordans, Ryvita, ACH) = teal
         <p class="q">"Can I get the right nutrients with a smaller portion?"</p>
         <p class="lens">30% of adults will use GLP-1 by 2030. Households on weight-loss medication cut overall grocery spend and shift toward premium, nutrient-dense items — high-quality proteins, single-serve functional foods — prioritising volume reduction over price.</p>
         <p class="meta">Shopped at &nbsp;·&nbsp; <b>M&amp;S Simply Food</b></p>
-        <div class="prompt"><button class="copy">Copy</button>Our shift — GLP-1 Macro-Shift. The behaviour: people on GLP-1 medication buy less food but need more nutritional density per bite, shifting to premium single-serve and high-protein items. By 2030 ~30% of adults may use GLP-1.
-First, ask us three things in one message and wait for our reply: what we saw on the shop floor and what we bought; the consumer need we think it reveals and the gap in the market; which ABF division or brand it's for.
-Once we've answered, don't hand us the answer — play back what we're really onto in one line, ask the one question that sharpens it, then wait.</div>
+        <div class="prompt"><button class="copy">Copy</button>We're exploring a consumer shift: GLP-1 Macro-Shift. The behaviour: people on GLP-1 medication buy less food but need more nutritional density per bite, shifting to premium single-serve and high-protein items. By 2030 ~30% of adults may use GLP-1.
+Ask us these three questions in one message, then wait for our reply:
+1. What did you see on the shop floor, and what did you buy?
+2. What consumer need does it reveal, and what is the gap in the market?
+3. Which ABF division or brand is it for?
+After we answer, reply with one line that plays back the opportunity, and one question that would sharpen it.</div>
       </div>
     </details>
 
@@ -213,9 +216,12 @@ Once we've answered, don't hand us the answer — play back what we're really on
         <p class="q">"Can I eat great meals and waste nothing?"</p>
         <p class="lens">Shoppers are adopting apps that track expiry dates on what they've bought, or suggest recipes from only what's left in the fridge — turning waste reduction into a routine, functional digital habit.</p>
         <p class="meta">Shopped at &nbsp;·&nbsp; <b>Sainsbury's Local</b></p>
-        <div class="prompt"><button class="copy">Copy</button>Our shift — Zero-Waste. The behaviour: shoppers use apps to track expiry dates and cook from what's already in the fridge, making waste reduction a daily digital routine.
-First, ask us three things in one message and wait for our reply: what we saw on the shop floor and what we bought; the consumer need we think it reveals and the gap in the market; which ABF division or brand it's for.
-Once we've answered, don't hand us the answer — play back what we're really onto in one line, ask the one question that sharpens it, then wait.</div>
+        <div class="prompt"><button class="copy">Copy</button>We're exploring a consumer shift: Zero-Waste. The behaviour: shoppers use apps to track expiry dates and cook from what's already in the fridge, making waste reduction a daily digital routine.
+Ask us these three questions in one message, then wait for our reply:
+1. What did you see on the shop floor, and what did you buy?
+2. What consumer need does it reveal, and what is the gap in the market?
+3. Which ABF division or brand is it for?
+After we answer, reply with one line that plays back the opportunity, and one question that would sharpen it.</div>
       </div>
     </details>
 
@@ -225,9 +231,12 @@ Once we've answered, don't hand us the answer — play back what we're really on
         <p class="q">"Can I trust this is actually good for the planet?"</p>
         <p class="lens">Deep fatigue and scepticism toward corporate green messaging and eco price premiums. Shoppers want proof over promises — verifiable longevity, transparency, data-backed claims — not vague "eco-friendly" labels.</p>
         <p class="meta">Shopped at &nbsp;·&nbsp; <b>Holland &amp; Barrett</b></p>
-        <div class="prompt"><button class="copy">Copy</button>Our shift — Sustainability Cynicism. The behaviour: shoppers have been burned by greenwashing and now demand proof over promises — verifiable, transparent, data-backed sustainability, not vague eco claims.
-First, ask us three things in one message and wait for our reply: what we saw on the shop floor and what we bought; the consumer need we think it reveals and the gap in the market; which ABF division or brand it's for.
-Once we've answered, don't hand us the answer — play back what we're really onto in one line, ask the one question that sharpens it, then wait.</div>
+        <div class="prompt"><button class="copy">Copy</button>We're exploring a consumer shift: Sustainability Cynicism. The behaviour: shoppers have been burned by greenwashing and now demand proof over promises — verifiable, transparent, data-backed sustainability, not vague eco claims.
+Ask us these three questions in one message, then wait for our reply:
+1. What did you see on the shop floor, and what did you buy?
+2. What consumer need does it reveal, and what is the gap in the market?
+3. Which ABF division or brand is it for?
+After we answer, reply with one line that plays back the opportunity, and one question that would sharpen it.</div>
       </div>
     </details>
   </section>
@@ -236,6 +245,7 @@ Once we've answered, don't hand us the answer — play back what we're really on
     <div class="sec-head">
       <div class="eyebrow muted">Pick what sells your idea</div>
       <h2>Build the assets</h2>
+      <p class="sub">Each asset is two prompts: the words first, then one image. Put the two together on a slide yourself.</p>
     </div>
     <div class="expand-row"><button data-toggle="assets">Expand all</button></div>
 
@@ -243,25 +253,36 @@ Once we've answered, don't hand us the answer — play back what we're really on
       <summary><span class="sum-title">Newspaper / trade press headline</span><span class="chev"></span></summary>
       <div class="panel-body">
         <p class="best">Best for proving the idea is newsworthy. Trade press for B2B, consumer press for B2C.</p>
-        <div class="prompt"><button class="copy">Copy</button>STEP 1 — shape (send first):
-Use the idea and division we've already given you in this chat — if you don't have them, ask us for both and wait.
-If our idea is vague, sharpen it to one concrete thing first and tell us what you sharpened it to. Pick the publication that fits the audience (trade press such as The Grocer for a business idea, consumer press for a consumer one) unless we've named one. Then propose, don't wait: the angle that would make an editor run this story, and one named real front page whose layout to echo. Ask us to confirm or swap, then wait.</div>
-        <div class="prompt"><button class="copy">Copy</button>STEP 2 — build (send once the direction is agreed):
-Write the front-page headline and standfirst that would run if this launched and worked — the way that publication actually writes. A punchy version and a serious version. Then lay the winning one out as a mock front page on one PowerPoint slide — if you can't create the file, generate it as a single image instead: masthead, headline, standfirst, captioned image space, division colour with navy ink.
-Self-check: reads like real journalism not a slogan; no overclaiming; strong hierarchy; one memorable hook; nothing cut off; no AI-slop phrasing.</div>
+        <p class="step-label">1 · The words</p>
+        <div class="prompt"><button class="copy">Copy</button>Write a newspaper front-page story about our idea, for a pitch to ABF's CIOs.
+Use the idea and division we've given you in this chat. If you don't have them, ask us for both first.
+Choose the publication that fits (trade press such as The Grocer for a business idea, a national paper for a consumer one) and write the way that publication writes, reporting the launch as a success.
+Give us:
+- three headline options, each under 10 words
+- a two-sentence standfirst for the strongest headline
+- one short quote from a fictional shopper</div>
+        <p class="step-label">2 · The image</p>
+        <div class="prompt"><button class="copy">Copy</button>Create an image: the photograph that would run on the front page with this story.
+Show our idea being used by a real person in an everyday setting, in a natural editorial news-photo style, with the brand colour of our division as the accent. Landscape format.
+Keep the image free of text, words and logos.</div>
       </div>
     </details>
 
     <details class="panel">
       <summary><span class="sum-title">Product poster</span><span class="chev"></span></summary>
       <div class="panel-body">
-        <p class="best">Best for a consumer product or pack you want people to see. Two steps: shape, then build.</p>
-        <div class="prompt"><button class="copy">Copy</button>STEP 1 — shape the look (send first):
-Use the idea and division we've already given you in this chat — if you don't have them, ask us for both and wait.
-First, if our idea is vague, sharpen it into one concrete product a customer could actually buy or use — and tell us in one line what you sharpened it to, so we can correct you. Then propose the direction yourself, don't wait for us to know: which ABF division colour anchors the palette, and ONE named real-world reference whose look to match (a specific brand or pack we'd recognise, not adjectives like "clean" or "modern"). Ask us to confirm or swap, then wait.</div>
-        <div class="prompt"><button class="copy">Copy</button>STEP 2 — build (send once the direction is agreed):
-Build a product poster as one PowerPoint slide — if you can't create the file, generate it as a single image instead, using the sharpened idea and agreed direction. Big bold headline (what it does for people, under 8 words), short subhead, three benefit lines, a clear labelled space for the product image. Division colour with navy ink, styled like the named reference.
-Run the QUALITY BAR over it — craft, one delightful hook, no slop — and fix anything that fails before showing us. One slide.</div>
+        <p class="best">Best for a consumer product or pack you want people to see.</p>
+        <p class="step-label">1 · The words</p>
+        <div class="prompt"><button class="copy">Copy</button>Write the copy for a product poster for our idea, for a pitch to ABF's CIOs.
+Use the idea and division we've given you in this chat. If you don't have them, ask us for both first.
+Give us:
+- three headline options, each under 8 words, saying what it does for people
+- a one-sentence subhead
+- three benefit lines of up to 6 words each</div>
+        <p class="step-label">2 · The image</p>
+        <div class="prompt"><button class="copy">Copy</button>Create an image: the poster visual for this product.
+Show the product as the hero, large and centred, on a clean background in the brand colour of our division with deep navy accents. Bold modern retail advertising style with studio lighting. Portrait format, with clear empty space at the top for a headline.
+Keep the image free of text, words and logos.</div>
       </div>
     </details>
 
@@ -269,12 +290,18 @@ Run the QUALITY BAR over it — craft, one delightful hook, no slop — and fix 
       <summary><span class="sum-title">Mini landing page</span><span class="chev"></span></summary>
       <div class="panel-body">
         <p class="best">Best for a service or digital idea.</p>
-        <div class="prompt"><button class="copy">Copy</button>STEP 1 — shape (send first):
-Use the idea and division we've already given you in this chat — if you don't have them, ask us for both and wait.
-If our idea is vague, sharpen it first and tell us what you sharpened it to. Then propose, don't wait: the one promise the hero should make, and one named reference site whose feel to match. Ask us to confirm or swap, then wait.</div>
-        <div class="prompt"><button class="copy">Copy</button>STEP 2 — build (send once the direction is agreed):
-Build a one-screen landing page mock as one PowerPoint slide — if you can't create the file, generate it as a single image instead, anchored to the division colour: hero with the promise as headline, a short "why it matters" line, three benefits, one clear call-to-action button. Styled like the reference, not a generic SaaS page.
-Self-check: dominant colour with sparing accent; the CTA is the most prominent thing after the headline; real readable contrast; one clear hook; one screen, nothing cut off.</div>
+        <p class="step-label">1 · The words</p>
+        <div class="prompt"><button class="copy">Copy</button>Write the copy for a one-screen landing page for our idea, for a pitch to ABF's CIOs.
+Use the idea and division we've given you in this chat. If you don't have them, ask us for both first.
+Give us:
+- a hero headline under 8 words that makes one promise
+- a one-sentence "why it matters" line
+- three benefits, each a three-word title and one sentence
+- the words on the call-to-action button</div>
+        <p class="step-label">2 · The image</p>
+        <div class="prompt"><button class="copy">Copy</button>Create an image: the hero picture for this landing page.
+Show the person our idea is for, using it in an everyday moment. Bright natural photography with the brand colour of our division as the accent. Wide landscape format, with clear empty space on the left for a headline.
+Keep the image free of text, words and logos.</div>
       </div>
     </details>
 
@@ -282,12 +309,17 @@ Self-check: dominant colour with sparing accent; the CTA is the most prominent t
       <summary><span class="sum-title">Social post</span><span class="chev"></span></summary>
       <div class="panel-body">
         <p class="best">Best for a consumer idea that lives or dies in the feed.</p>
-        <div class="prompt"><button class="copy">Copy</button>STEP 1 — shape (send first):
-Use the idea and division we've already given you in this chat — if you don't have them, ask us for both and wait.
-If our idea is vague, sharpen it first and tell us what you sharpened it to. Then propose, don't wait: the platform that fits the audience (Instagram, TikTok or LinkedIn) unless we've named one, the one visual hook that would stop the scroll, and one named creator or brand account whose style to echo. Ask us to confirm or swap, then wait.</div>
-        <div class="prompt"><button class="copy">Copy</button>STEP 2 — build (send once the direction is agreed):
-Build a single social post mock for that platform as one PowerPoint slide — if you can't create the file, generate it as a single image instead, built around the division colour: the scroll-stopping visual described or laid out, the caption in the brand's voice, a clear call to action. Native to the platform, not a corporate ad dropped in.
-Self-check: would a real person stop on this; voice matches the brand; one scroll-stopping hook; no slop gradient or filler caption.</div>
+        <p class="step-label">1 · The words</p>
+        <div class="prompt"><button class="copy">Copy</button>Write a social post launching our idea.
+Use the idea and division we've given you in this chat. If you don't have them, ask us for both first.
+Pick the platform that fits the audience (Instagram, TikTok or LinkedIn) and tell us which you chose.
+Give us:
+- three caption options in the brand's voice, each under 40 words, with a clear call to action
+- three hashtags</div>
+        <p class="step-label">2 · The image</p>
+        <div class="prompt"><button class="copy">Copy</button>Create an image: the scroll-stopping picture for this post.
+One striking close-up of our idea in real life, vivid, with the brand colour of our division dominant. It should feel like a photo a real person took on their phone. Square format.
+Keep the image free of text, words and logos.</div>
       </div>
     </details>
 
@@ -295,12 +327,16 @@ Self-check: would a real person stop on this; voice matches the brand; one scrol
       <summary><span class="sum-title">Concept ad — a 15-second idea</span><span class="chev"></span></summary>
       <div class="panel-body">
         <p class="best">Best for an idea with an emotional or story angle.</p>
-        <div class="prompt"><button class="copy">Copy</button>STEP 1 — shape (send first):
-Use the idea and division we've already given you in this chat — if you don't have them, ask us for both and wait.
-If our idea is vague, sharpen it to one concrete thing first and tell us what you sharpened it to. Then propose, don't wait: the single emotional moment or story beat that would carry a 15-second spot, and one named ad or brand film whose tone to echo (a real ad people would recognise, not adjectives). Ask us to confirm or swap, then wait.</div>
-        <div class="prompt"><button class="copy">Copy</button>STEP 2 — build (send once the direction is agreed):
-Write a 15-second ad concept: opening shot, what happens, the line it ends on. Then describe the single key frame in enough detail to picture on screen, and lay it out as one PowerPoint slide — if you can't create the file, generate it as a single image instead, in the division's colour with the end line as the headline.
-Self-check: tells a story in one move, not a feature list; the end line lands; division colour dominant, one strong image idea that carries it; no slop.</div>
+        <p class="step-label">1 · The words</p>
+        <div class="prompt"><button class="copy">Copy</button>Write a 15-second ad for our idea, built around one emotional moment.
+Use the idea and division we've given you in this chat. If you don't have them, ask us for both first.
+Give us:
+- a three-beat script: opening shot, what happens, final shot, one line each
+- three options for the end line, each under 8 words</div>
+        <p class="step-label">2 · The image</p>
+        <div class="prompt"><button class="copy">Copy</button>Create an image: the key frame of this ad, the single moment that carries the story.
+A cinematic, warm, widescreen film still with the brand colour of our division as the accent.
+Keep the image free of text, words and logos.</div>
       </div>
     </details>
 
@@ -308,12 +344,17 @@ Self-check: tells a story in one move, not a feature list; the end line lands; d
       <summary><span class="sum-title">App concept screen</span><span class="chev"></span></summary>
       <div class="panel-body">
         <p class="best">Best for a digital product, service, or loyalty idea that people would use on their phone.</p>
-        <div class="prompt"><button class="copy">Copy</button>STEP 1 — shape (send first):
-Use the idea and division we've already given you in this chat — if you don't have them, ask us for both and wait.
-If our idea is vague, sharpen it first and tell us what you sharpened it to. Then propose, don't wait: the single key screen that would make someone say "I'd use that" — what it shows and does — and one named app whose design feel to match (a real app people recognise, not adjectives). Ask us to confirm or swap, then wait.</div>
-        <div class="prompt"><button class="copy">Copy</button>STEP 2 — build (send once the direction is agreed):
-Build one app concept screen as a phone mockup on one PowerPoint slide — if you can't create the file, generate it as a single image instead, using the division colour: top bar with brand name, the key screen with the core action front and centre, realistic-looking UI elements (buttons, cards, labels — not wireframe grey), and a short headline above the phone that says what the app does for people in under 10 words. Styled like the named reference, not a generic template.
-Self-check: looks like a real app someone would download; the core action is obvious in two seconds; division colour anchors it; no placeholder lorem ipsum or wireframe feel; one screen, nothing cut off.</div>
+        <p class="step-label">1 · The words</p>
+        <div class="prompt"><button class="copy">Copy</button>Describe the one key screen of a phone app for our idea, for a pitch to ABF's CIOs.
+Use the idea and division we've given you in this chat. If you don't have them, ask us for both first.
+Give us:
+- an app name
+- a headline under 10 words saying what the app does for people
+- what the screen shows, top to bottom, in five short bullet points
+- the label on the main button</div>
+        <p class="step-label">2 · The image</p>
+        <div class="prompt"><button class="copy">Copy</button>Create an image: a hand holding a smartphone that shows this app's key screen, in a real everyday setting.
+Give the screen a simple, bold interface built from large shapes and icons in the brand colour of our division, using icons in place of words. Portrait format.</div>
       </div>
     </details>
 
@@ -323,8 +364,12 @@ Self-check: looks like a real app someone would download; the core action is obv
       <summary><span class="sum-title">Pressure-test your canvas</span><span class="chev"></span></summary>
       <div class="panel-body">
         <p class="best">For every team, before you build. Checks each box of your canvas without writing it for you.</p>
-        <div class="prompt"><button class="copy">Copy</button>We're about to type in our canvas. First, ask us for these boxes in one message, and tell us "blank" is fine for any we haven't filled: innovation name; consumer need; gap in the market; our idea and who it's for; how it would work and the technologies that could power it; how we could bring it to life; ideal impact (consumer / business); most important assumptions and how we'd test them. Wait for our reply.
-Once we've answered, don't rewrite it for us. For each box, tell us in one line whether it's clear and specific enough to convince a room of CIOs. Then pick the two weakest boxes and ask one sharpening question on each. On the technology box, challenge whether the technology we named is really what makes this possible. On the experiments box, challenge whether our test could actually prove us wrong. Then wait.</div>
+        <div class="prompt"><button class="copy">Copy</button>Help us pressure-test our innovation canvas before we pitch to ABF's CIOs.
+Ask us to type in these boxes in one message ("blank" is fine), then wait: innovation name; consumer need; gap in the market; our idea and who it's for; how it would work and the technologies that could power it; how we could bring it to life; ideal impact (consumer / business); most important assumptions and how we'd test them.
+After we answer, give us:
+- a one-line verdict on each box: clear and specific, or what's missing
+- one sharpening question on each of the two weakest boxes
+Check that the technology we named is what makes the idea possible, and that our experiment could prove us wrong. Leave the rewriting to us.</div>
       </div>
     </details>
 
@@ -332,9 +377,13 @@ Once we've answered, don't rewrite it for us. For each box, tell us in one line 
       <summary><span class="sum-title">Name &amp; tagline</span><span class="chev"></span></summary>
       <div class="panel-body">
         <p class="best">For every team — your canvas has an Innovation name box to fill.</p>
-        <div class="prompt"><button class="copy">Copy</button>Use the idea and division we've already given you in this chat — if you don't have them, ask us for both and wait.
-If our idea is vague, sharpen it to one concrete thing first and tell us what you sharpened it to. Then give us five name options and a tagline for each, ranging from safe to bold. One line each on why it works. Rank them, then ask which direction we lean before refining.
-Hold this bar: names you could say out loud and put on a pack, not portmanteau word-salad; the tagline says what it does for people, with one memorable turn of phrase — no generic slop.</div>
+        <div class="prompt"><button class="copy">Copy</button>Suggest names for our idea.
+Use the idea and division we've given you in this chat. If you don't have them, ask us for both first.
+Give us:
+- five names, ranging from safe to bold, each easy to say out loud and to put on a pack
+- a tagline for each that says what it does for people
+- one line on why each works
+Put your top pick first, then ask which direction we prefer.</div>
       </div>
     </details>
 
@@ -342,9 +391,17 @@ Hold this bar: names you could say out loud and put on a pack, not portmanteau w
       <summary><span class="sum-title">The two-minute pitch</span><span class="chev"></span></summary>
       <div class="panel-body">
         <p class="best">For every team, at the end. What you stand up and say to win.</p>
-        <div class="prompt"><button class="copy">Copy</button>Use our canvas and the assets we've made in this chat. If you're missing any of these, ask us for them in one message and wait: innovation name; consumer need; gap in the market; our idea and who it's for; how it would work and the technologies that could power it; how we could bring it to life; ideal impact (consumer / business); most important assumptions and how we'd test them.
-Draft a 2-minute spoken pitch for a room of ABF CIOs: hook with the consumer need we saw on the shop floor, name the gap in the market, present the idea and who it's for, say in one plain sentence what technology makes it possible, show how the assets bring it to life, state the impact, say how we'd test our biggest assumption, close on why ABF should back us over the other teams. Short sentences, open and close land hard. Stay true to our canvas — don't inflate it. Then ask which line feels least true, and help fix it.
-Optional deck: four PowerPoint slides, one idea each, division colour, minimal text. Self-check against the QUALITY BAR before showing.</div>
+        <div class="prompt"><button class="copy">Copy</button>Write a 2-minute spoken pitch, about 300 words, for our idea, for a room of ABF's CIOs.
+Use our canvas and the assets from this chat. If any of these are missing, ask us for them in one message and wait: innovation name; consumer need; gap in the market; our idea and who it's for; how it would work and the technologies that could power it; how we could bring it to life; ideal impact (consumer / business); most important assumptions and how we'd test them.
+Follow this order:
+1. the consumer need we saw on the shop floor
+2. the gap in the market
+3. the idea and who it's for
+4. the technology that makes it possible, in one plain sentence
+5. the impact
+6. how we'd test our biggest assumption
+7. why ABF should back it
+Use short spoken sentences and stay true to what's on our canvas. Finish by asking which line feels least true to us.</div>
       </div>
     </details>
 
@@ -352,7 +409,7 @@ Optional deck: four PowerPoint slides, one idea each, division colour, minimal t
       <summary><span class="sum-title">If an asset comes out weak — rescue it</span><span class="chev"></span></summary>
       <div class="panel-body">
         <p class="best">When something isn't good enough to win in front of CIOs.</p>
-        <div class="prompt"><button class="copy">Copy</button>That's not good enough to win in front of CIOs yet. Tell us honestly what's making it look amateur — the idea, the copy, the layout, or the lack of a strong visual? Pick the single biggest problem, tell us what a great version would do differently, and rebuild it to that bar.</div>
+        <div class="prompt"><button class="copy">Copy</button>This isn't strong enough yet for a room of CIOs. Name the single biggest weakness (the idea, the words or the image), say in one line what a strong version would do, then redo it that way.</div>
       </div>
     </details>
   </section>
