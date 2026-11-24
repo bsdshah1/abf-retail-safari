@@ -56,9 +56,9 @@
   main{padding:52px 0 0}
   section{margin-bottom:64px}
   .sec-head{margin-bottom:26px}
-  .sec-head h2{font-family:var(--serif);font-size:30px;font-weight:600;letter-spacing:-.01em;margin-top:10px}
+  .sec-head h2{font-family:var(--serif);font-size:30px;font-weight:600;letter-spacing:-.01em}
   .primer{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:30px}
-  .primer h2{font-family:var(--serif);font-size:27px;font-weight:600;margin:10px 0 6px}
+  .primer h2{font-family:var(--serif);font-size:27px;font-weight:600;margin:0 0 6px}
   .primer .sub{color:var(--muted);font-size:14px;margin-bottom:20px;max-width:64ch;line-height:1.6}
   .shift{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:28px;margin-bottom:16px;position:relative}
   .shift.s1::before{background:var(--sugar)}
@@ -89,7 +89,7 @@
   .caution{font-size:12.5px;color:var(--muted);margin-top:18px;padding-top:16px;border-top:1px solid var(--rule);line-height:1.6}
   .caution b{color:var(--ink-soft);font-weight:600}
 
-  /* collapsible panels — shifts and assets */
+  /* collapsible panels: shifts and assets */
   details.panel{background:var(--paper);border:1px solid var(--rule);border-radius:6px;margin-bottom:16px;position:relative;overflow:hidden}
   details.panel[open]{box-shadow:0 1px 0 rgba(34,28,40,.03)}
   details.panel > summary{list-style:none;cursor:pointer;padding:22px 26px;display:flex;align-items:baseline;gap:13px;outline:none}
@@ -161,12 +161,12 @@
     <div class="hero-img"><img src="assets/Stuck at Home Home Office.png" alt="Team collaborating on ideas"></div>
   </div>
   <div class="steps">
-    <div class="s"><div class="n">1</div><p><b>Set up</b> — paste the set-up prompt into Copilot once.</p></div>
-    <div class="s"><div class="n">2</div><p><b>Brief</b> — copy your shift insight to give the AI its context.</p></div>
-    <div class="s"><div class="n">3</div><p><b>Build</b> — make the assets that sell the idea.</p></div>
+    <div class="s"><div class="n">1</div><p><b>Set up.</b> Paste the set-up prompt into Copilot once.</p></div>
+    <div class="s"><div class="n">2</div><p><b>Brief.</b> Copy your shift insight to give the AI its context.</p></div>
+    <div class="s"><div class="n">3</div><p><b>Build.</b> Make the assets that sell the idea.</p></div>
   </div>
-  <p class="caution" style="margin-top:22px"><b>Responsible use.</b> These prompts haven't been formally evaluated — always check what the AI produces, it can get things wrong. Keep confidential or commercially sensitive ABF data out of the tool.</p>
-  <p class="caution"><b>No editing needed.</b> Paste each prompt exactly as it is. Copilot will ask your team for the details — what you saw on the shop floor, your idea, your division — and you just type your answers. The more specific you are, the better the AI's output will be.</p>
+  <p class="caution" style="margin-top:22px"><b>Responsible use.</b> These prompts haven't been formally evaluated. Always check what the AI produces, because it can get things wrong. Keep confidential or commercially sensitive ABF data out of the tool.</p>
+  <p class="caution"><b>No editing needed.</b> Paste each prompt exactly as it is. Copilot will ask your team for the details: what you saw on the shop floor, your idea and your division. You just type your answers. The more specific you are, the better the AI's output will be.</p>
 </div></header>
 
 <nav><div class="wrap">
@@ -179,9 +179,8 @@
 
   <section id="setup">
     <div class="primer">
-      <div class="eyebrow">Paste once, first</div>
       <h2>The set-up prompt</h2>
-      <p class="sub">Gives Copilot the ABF context, the brand colours and how to work with your team. If you're using Copilot Cowork, you can save this as your project instructions so it's loaded automatically every time.</p>
+      <p class="sub">Paste this once, before anything else. It gives Copilot the ABF context, the brand colours and how to work with your team. If you're using Copilot Cowork, you can save this as your project instructions so it's loaded automatically every time.</p>
       <div class="prompt"><button class="copy">Copy</button>You are our creative partner at the ABF CIO Summit workshop, Consumer Driven Innovation. We will give you a consumer idea, and you help us turn it into pitch assets for a room of ABF's CIOs.
 
 <span class="lbl">WHO WE ARE</span>
@@ -190,10 +189,10 @@ Associated British Foods (ABF) is a group of separate businesses: consumer brand
 <span class="lbl">HOW TO WORK WITH US</span>
 Write in plain, concrete language a shopper would use. Give every asset one memorable hook. Show what the idea does for the consumer, and name in one plain phrase the technology or data behind it. If our idea is vague, sharpen it into one concrete thing and tell us what you changed. When a choice is open, propose your best answer. Use only the facts about our brands that we give you, and tell us when you have added one.
 
-<span class="lbl">BRAND COLOURS — use the colour of the division the idea serves</span>
+<span class="lbl">BRAND COLOURS: use the colour of the division the idea serves</span>
 Retail / Primark: cyan #00B4E1 · Grocery (Twinings, Jordans, Ryvita, ACH): teal #0CAF9E · Ingredients / AB Mauri: orange #F4881C · Sugar: magenta #B31572 · Agriculture / AB Agri: green #058E32. Pair it with deep navy and plenty of white space.
 
-<span class="lbl">VISUAL STYLE — use for every image</span>
+<span class="lbl">VISUAL STYLE: use for every image</span>
 Warm natural light, real people in real everyday settings, and the division colour as the one strong accent, so all our assets look like one campaign. Keep images free of text, words and logos.
 
 Reply with one line to confirm you're ready, then wait.</div>
@@ -202,17 +201,17 @@ Reply with one line to confirm you're ready, then wait.</div>
 
   <section id="shifts">
     <div class="sec-head">
-      <div class="eyebrow muted">Copy yours to brief the AI</div>
       <h2>The three shifts</h2>
+      <p class="sub">Open your team's shift and copy its prompt to brief the AI.</p>
     </div>
     <div class="expand-row"><button data-toggle="shifts">Expand all</button></div>
 
     <details class="panel s1">
-      <summary><span class="sum-dot"></span><span class="sum-idx">01</span><span class="sum-title">GLP-1 Macro-Shift</span><span class="chev"></span></summary>
+      <summary><span class="sum-dot"></span><span class="sum-title">GLP-1 Macro-Shift</span><span class="chev"></span></summary>
       <div class="panel-body">
         <p class="q">"Can I get the right nutrients with a smaller portion?"</p>
-        <p class="lens">30% of adults will use GLP-1 by 2030. Households on weight-loss medication cut overall grocery spend and shift toward premium, nutrient-dense items — high-quality proteins, single-serve functional foods — prioritising volume reduction over price.</p>
-        <p class="meta">Shopped at &nbsp;·&nbsp; <b>M&amp;S Simply Food</b></p>
+        <p class="lens">30% of adults will use GLP-1 by 2030. Households on weight-loss medication cut overall grocery spend and shift toward premium, nutrient-dense items such as high-quality proteins and single-serve functional foods. They put smaller portions ahead of lower prices.</p>
+        <p class="meta">Shopped at <b>M&amp;S Simply Food</b></p>
         <div class="prompt"><button class="copy">Copy</button>We're exploring a consumer shift: GLP-1 Macro-Shift. The behaviour: people on GLP-1 medication buy less food but need more nutritional density per bite, shifting to premium single-serve and high-protein items. By 2030 ~30% of adults may use GLP-1.
 Ask us these three questions in one message, then wait for our reply:
 1. What did you see on the shop floor, and what did you buy?
@@ -223,11 +222,11 @@ After we answer, reply with one line that plays back the opportunity, and one qu
     </details>
 
     <details class="panel s3">
-      <summary><span class="sum-dot"></span><span class="sum-idx">02</span><span class="sum-title">Zero-Waste</span><span class="chev"></span></summary>
+      <summary><span class="sum-dot"></span><span class="sum-title">Zero-Waste</span><span class="chev"></span></summary>
       <div class="panel-body">
         <p class="q">"Can I eat great meals and waste nothing?"</p>
-        <p class="lens">Shoppers are adopting apps that track expiry dates on what they've bought, or suggest recipes from only what's left in the fridge — turning waste reduction into a routine, functional digital habit.</p>
-        <p class="meta">Shopped at &nbsp;·&nbsp; <b>Sainsbury's Local</b></p>
+        <p class="lens">Shoppers are adopting apps that track expiry dates on what they've bought, or suggest recipes from only what's left in the fridge. Cutting waste becomes a routine digital habit.</p>
+        <p class="meta">Shopped at <b>Sainsbury's Local</b></p>
         <div class="prompt"><button class="copy">Copy</button>We're exploring a consumer shift: Zero-Waste. The behaviour: shoppers use apps to track expiry dates and cook from what's already in the fridge, making waste reduction a daily digital routine.
 Ask us these three questions in one message, then wait for our reply:
 1. What did you see on the shop floor, and what did you buy?
@@ -238,12 +237,12 @@ After we answer, reply with one line that plays back the opportunity, and one qu
     </details>
 
     <details class="panel s5">
-      <summary><span class="sum-dot"></span><span class="sum-idx">03</span><span class="sum-title">Sustainability Cynicism</span><span class="chev"></span></summary>
+      <summary><span class="sum-dot"></span><span class="sum-title">Sustainability Cynicism</span><span class="chev"></span></summary>
       <div class="panel-body">
         <p class="q">"Can I trust this is actually good for the planet?"</p>
-        <p class="lens">Deep fatigue and scepticism toward corporate green messaging and eco price premiums. Shoppers want proof over promises — verifiable longevity, transparency, data-backed claims — not vague "eco-friendly" labels.</p>
-        <p class="meta">Shopped at &nbsp;·&nbsp; <b>Holland &amp; Barrett</b></p>
-        <div class="prompt"><button class="copy">Copy</button>We're exploring a consumer shift: Sustainability Cynicism. The behaviour: shoppers have been burned by greenwashing and now demand proof over promises — verifiable, transparent, data-backed sustainability, not vague eco claims.
+        <p class="lens">Deep fatigue and scepticism toward corporate green messaging and eco price premiums. Shoppers want proof over promises: verifiable longevity, transparency and data-backed claims. Vague "eco-friendly" labels no longer persuade them.</p>
+        <p class="meta">Shopped at <b>Holland &amp; Barrett</b></p>
+        <div class="prompt"><button class="copy">Copy</button>We're exploring a consumer shift: Sustainability Cynicism. The behaviour: shoppers have been burned by greenwashing and now demand proof over promises: verifiable, transparent, data-backed sustainability, not vague eco claims.
 Ask us these three questions in one message, then wait for our reply:
 1. What did you see on the shop floor, and what did you buy?
 2. What consumer need does it reveal, and what is the gap in the market?
@@ -255,9 +254,8 @@ After we answer, reply with one line that plays back the opportunity, and one qu
 
   <section id="assets">
     <div class="sec-head">
-      <div class="eyebrow muted">Pick what sells your idea</div>
       <h2>Build the assets</h2>
-      <p class="sub">Each asset is two prompts: the words first, then one image. Put the two together on a slide yourself.</p>
+      <p class="sub">Pick the asset that sells your idea. Each asset is two prompts: the words first, then one image. Put the two together on a slide yourself.</p>
     </div>
     <div class="expand-row"><button data-toggle="assets">Expand all</button></div>
 
@@ -357,7 +355,7 @@ Keep the image free of text, words and logos.</div>
     </details>
 
     <details class="panel">
-      <summary><span class="sum-title">Concept ad — a 15-second idea</span><span class="chev"></span></summary>
+      <summary><span class="sum-title">15-second concept ad</span><span class="chev"></span></summary>
       <div class="panel-body">
         <p class="best">Best for an idea with an emotional or story angle.</p>
         <p class="step-label">1 · The words</p>
@@ -418,7 +416,7 @@ Check that the technology we named is what makes the idea possible, and that our
     <details class="panel">
       <summary><span class="sum-title">Name &amp; tagline</span><span class="chev"></span></summary>
       <div class="panel-body">
-        <p class="best">For every team — your canvas has an Innovation name box to fill.</p>
+        <p class="best">For every team. Your canvas has an Innovation name box to fill.</p>
         <div class="prompt"><button class="copy">Copy</button>Suggest names for our idea.
 Use the idea and division we've given you in this chat. If you don't have them, ask us for both first.
 Reply with only a numbered list of five names, top pick first, ranging from safe to bold. Each name should be easy to say out loud and to put on a pack. For each give:
@@ -462,7 +460,7 @@ Use short spoken sentences and concrete details from our canvas. After the pitch
     </details>
 
     <details class="panel rescue">
-      <summary><span class="sum-title">If an asset comes out weak — rescue it</span><span class="chev"></span></summary>
+      <summary><span class="sum-title">Rescue a weak asset</span><span class="chev"></span></summary>
       <div class="panel-body">
         <p class="best">When something isn't good enough to win in front of CIOs.</p>
         <div class="prompt"><button class="copy">Copy</button>This isn't strong enough yet for a room of CIOs. Name the single biggest weakness (the idea, the words or the image), say in one line what a strong version would do, then redo it that way.</div>
