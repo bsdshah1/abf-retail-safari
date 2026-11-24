@@ -30,6 +30,10 @@
 
   header.hero{background:var(--paper);border-bottom:1px solid var(--rule)}
   header.hero .wrap{padding-top:40px;padding-bottom:0}
+  .hero-top{display:flex;align-items:center;gap:40px}
+  .hero-text{flex:1;min-width:0}
+  .hero-img{flex:0 0 300px}
+  .hero-img img{width:100%;height:auto;display:block}
   header.hero h1{font-family:var(--serif);font-size:46px;line-height:1.04;font-weight:600;letter-spacing:-.015em;margin:14px 0 14px;text-wrap:balance}
   header.hero .stand{font-size:17px;color:var(--ink-soft);max-width:60ch;line-height:1.6}
   .criteria{margin-top:28px;border-top:1px solid var(--rule);display:grid;grid-template-columns:repeat(3,1fr)}
@@ -42,12 +46,18 @@
   .criteria p b{color:var(--ink);font-weight:600}
 
   nav{position:sticky;top:0;z-index:30;background:rgba(246,241,243,.94);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--rule)}
-  nav .wrap{display:flex;gap:30px;padding-top:6px;padding-bottom:0}
-  nav button{font:inherit;background:none;border:0;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);padding:10px 0 11px;border-bottom:2px solid transparent;transition:color .15s}
-  nav button:hover,nav a.back:hover{color:var(--ink)}
-  nav a.back{margin-left:auto;font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;padding:10px 0 11px}
-  nav a.back::before{content:"\2190\00a0"}
-  nav button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--crimson)}
+  nav .wrap{display:flex;align-items:center;gap:18px;padding-top:8px;padding-bottom:8px}
+  .switch{display:flex;flex-shrink:0;background:var(--paper);border:1px solid var(--rule-strong);border-radius:6px;padding:2px}
+  .switch a{font-family:var(--sans);font-size:13px;font-weight:600;line-height:1;color:var(--ink-soft);text-decoration:none;padding:8px 12px;border-radius:4px;transition:color .15s,background .15s}
+  .switch a:hover{color:var(--ink)}
+  .switch a[aria-current]{background:var(--ink);color:#fff}
+  .sub{display:flex;gap:22px;min-width:0;overflow-x:auto;scrollbar-width:none;border-left:1px solid var(--rule-strong);padding-left:18px}
+  .sub::-webkit-scrollbar{display:none}
+  .sub a,.sub button{font-family:var(--sans);font-size:13px;font-weight:600;line-height:1;color:var(--muted);background:none;border:0;cursor:pointer;text-decoration:none;white-space:nowrap;padding:9px 0 7px;border-bottom:2px solid transparent;transition:color .15s}
+  .sub a:hover,.sub button:hover{color:var(--ink)}
+  .sub a.on,.sub button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--crimson)}
+  .sub i{font-family:var(--serif);font-style:normal;font-weight:600;color:var(--crimson);margin-right:6px}
+  nav :focus-visible{outline:2px solid var(--crimson);outline-offset:2px;border-radius:3px}
   :focus-visible{outline:2px solid var(--crimson);outline-offset:2px}
 
   main{padding:36px 0 0}
@@ -171,6 +181,8 @@
     .fp,.fp svg{width:84px}
     header.hero .wrap{padding-top:28px}
     header.hero h1{font-size:34px}
+    .hero-top{flex-direction:column;align-items:flex-start;gap:18px}
+    .hero-img{flex:0 0 auto;width:210px;align-self:center}
     header.hero .stand{font-size:16px}
     .criteria .s{padding:14px 10px 14px 0}
     .criteria .s + .s{padding-left:12px}
@@ -186,11 +198,15 @@
     th:first-child,td:first-child{padding-left:18px}
     th:last-child,td:last-child{padding-right:18px}
     .btn{padding:12px 18px}
+    nav .wrap{gap:12px}
+    .sub{gap:16px;padding-left:12px}
+    .switch a{padding:8px 10px}
     table{font-size:13px}
     th,td{padding:10px 6px}
     thead th{letter-spacing:.03em;font-size:10.5px}
     .long{display:none}.short{display:inline}
   }
+  @media(max-width:380px){.sub{gap:12px}.switch a{padding:8px}}
   @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -203,16 +219,26 @@
 </div></div>
 
 <header class="hero"><div class="wrap">
-  <div class="eyebrow">Judges' scorecard</div>
-  <h1 id="h1">Score the pitches.</h1>
-  <p class="stand">Slide to give each group a mark on three criteria. A full scorecard adds up to 100. You can come back and change your marks until judging closes.</p>
+  <div class="hero-top">
+    <div class="hero-text">
+      <div class="eyebrow">Judges' scorecard</div>
+      <h1 id="h1">Score the pitches.</h1>
+      <p class="stand">Slide to give each group a score on three criteria. A full scorecard adds up to 100. To change a score later, come back and submit again.</p>
+    </div>
+    <div class="hero-img"><img src="../assets/Stuck%20at%20Home%20Long%20Distance%20Relationship.png" alt="" width="735" height="577"></div>
+  </div>
   <div class="criteria" id="criteria"></div>
 </div></header>
 
-<nav><div class="wrap" role="tablist" aria-label="Views">
-  <button role="tab" id="tab-score" aria-controls="view-score" aria-selected="true">Score</button>
-  <button role="tab" id="tab-results" aria-controls="view-results" aria-selected="false">Results</button>
-  <a class="back" href="../">Retail Safari</a>
+<nav aria-label="Workshop"><div class="wrap">
+  <div class="switch">
+    <a href="../">Prompts</a>
+    <a href="./" aria-current="page">Vote</a>
+  </div>
+  <div class="sub" role="tablist" aria-label="Vote">
+    <button role="tab" id="tab-score" aria-controls="view-score" aria-selected="true">Score</button>
+    <button role="tab" id="tab-results" aria-controls="view-results" aria-selected="false">Results</button>
+  </div>
 </div></nav>
 
 <main><div class="wrap">
@@ -261,7 +287,7 @@
         <tbody id="avg-rows"></tbody>
       </table></div>
 
-      <div class="sec-head"><h2>Totals by judge</h2><span class="hint">Each judge's mark out of 100</span></div>
+      <div class="sec-head"><h2>Totals by judge</h2><span class="hint">Each judge's score out of 100</span></div>
       <div class="panel scroll"><table>
         <thead id="judge-head"></thead>
         <tbody id="judge-rows"></tbody>
@@ -438,7 +464,7 @@ async function lookup() {
       const map = {};
       rows.forEach((r) => CRITERIA.forEach((c) => { map[r.group_id + "-" + c.id] = r[c.id]; }));
       fill(map);
-      note.textContent = "Welcome back. Your saved marks are loaded below. Change any of them and submit again.";
+      note.textContent = "Welcome back. Your saved scores are loaded below. Change any of them and submit again.";
     } else {
       note.textContent = "Scores already exist under this name. Submitting replaces them.";
     }
@@ -459,7 +485,7 @@ $("form").addEventListener("submit", async (e) => {
     showGroupError(g, true);
   });
   if (firstBad) {
-    progress(firstBad === $("judge") ? "Add your name to submit." : "Some marks are still to score.", true);
+    progress(firstBad === $("judge") ? "Add your name to submit." : "Some scores are still missing.", true);
     firstBad.focus();
     firstBad.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
     return;
@@ -487,7 +513,7 @@ $("form").addEventListener("submit", async (e) => {
     lastLookup = judge.toLowerCase();
     busy = false;
     $("submit").textContent = "Update my scores";
-    $("done-text").textContent = "Thanks, " + judge + ". Your marks for all " + NUM + " groups are in. To change one, move its slider and submit again.";
+    $("done-text").textContent = "Thanks, " + judge + ". Your scores for all " + NUM + " groups are in. To change one, move its slider and submit again.";
     $("done").hidden = false;
     $("done").focus({ preventScroll: true });
     $("done").scrollIntoView({ block: "center" });
@@ -495,7 +521,7 @@ $("form").addEventListener("submit", async (e) => {
   } catch (err) {
     busy = false;
     $("submit").textContent = label;
-    progress("Not saved. " + (navigator.onLine ? err.message : "You appear to be offline.") + " Your marks are still here, try again.", true);
+    progress("Not saved. " + (navigator.onLine ? err.message : "You appear to be offline.") + " Your scores are still here. Try again.", true);
   } finally {
     $("submit").disabled = false;
   }

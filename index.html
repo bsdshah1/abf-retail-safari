@@ -46,11 +46,21 @@
   .steps .n{font-family:var(--serif);font-size:30px;font-weight:600;color:var(--crimson);line-height:1}
   .steps .s p{font-size:13.5px;color:var(--ink-soft);margin-top:8px;max-width:30ch}
   .steps .s p b{color:var(--ink);font-weight:600}
-  nav{position:sticky;top:0;z-index:30;background:rgba(246,243,240,.92);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--rule)}
-  nav .wrap{display:flex;gap:30px;padding-top:14px;padding-bottom:14px}
-  nav a{font-family:var(--sans);text-decoration:none;font-size:13px;font-weight:600;color:var(--muted);padding-bottom:3px;border-bottom:2px solid transparent;transition:color .15s}
-  nav a:hover{color:var(--ink)}
-  nav a.on{color:var(--ink);border-bottom-color:var(--crimson)}
+  nav{position:sticky;top:0;z-index:30;background:rgba(246,241,243,.94);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--rule)}
+  nav .wrap{display:flex;align-items:center;gap:18px;padding-top:8px;padding-bottom:8px}
+  .switch{display:flex;flex-shrink:0;background:var(--paper);border:1px solid var(--rule-strong);border-radius:6px;padding:2px}
+  .switch a{font-family:var(--sans);font-size:13px;font-weight:600;line-height:1;color:var(--ink-soft);text-decoration:none;padding:8px 12px;border-radius:4px;transition:color .15s,background .15s}
+  .switch a:hover{color:var(--ink)}
+  .switch a[aria-current]{background:var(--ink);color:#fff}
+  .sub{display:flex;gap:22px;min-width:0;overflow-x:auto;scrollbar-width:none;border-left:1px solid var(--rule-strong);padding-left:18px}
+  .sub::-webkit-scrollbar{display:none}
+  .sub a,.sub button{font-family:var(--sans);font-size:13px;font-weight:600;line-height:1;color:var(--muted);background:none;border:0;cursor:pointer;text-decoration:none;white-space:nowrap;padding:9px 0 7px;border-bottom:2px solid transparent;transition:color .15s}
+  .sub a:hover,.sub button:hover{color:var(--ink)}
+  .sub a.on,.sub button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--crimson)}
+  .sub i{font-family:var(--serif);font-style:normal;font-weight:600;color:var(--crimson);margin-right:6px}
+  nav :focus-visible{outline:2px solid var(--crimson);outline-offset:2px;border-radius:3px}
+  section[id]{scroll-margin-top:68px}
+  .short{display:none}
   main{padding:52px 0 0}
   section{margin-bottom:64px}
   .sec-head{margin-bottom:26px}
@@ -133,8 +143,12 @@
     .steps{grid-template-columns:1fr}
     .steps .s{border-right:none;border-bottom:1px solid var(--rule);padding:16px 0}
     .shift .q,.shift .lens,.shift .meta,.shift .prompt{margin-left:0}
-    nav .wrap{gap:20px;overflow-x:auto}
+    nav .wrap{gap:12px;padding-left:16px;padding-right:16px}
+    .long{display:none}.short{display:inline}
+    .sub{gap:16px;padding-left:12px}
+    .switch a{padding:8px 10px}
   }
+  @media(max-width:380px){.sub{gap:12px}.switch a{padding:8px}}
   @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>
 </head>
@@ -165,10 +179,16 @@
   <p class="caution"><b>No editing needed.</b> Paste each prompt exactly as it is. Copilot will ask your team for the details — what you saw on the shop floor, your idea, your division — and you just type your answers. The more specific you are, the better the AI's output will be.</p>
 </div></header>
 
-<nav><div class="wrap">
-  <a href="#setup" class="on">Set-up</a>
-  <a href="#shifts">The three shifts</a>
-  <a href="#assets">Build assets</a>
+<nav aria-label="Workshop"><div class="wrap">
+  <div class="switch">
+    <a href="./" aria-current="page">Prompts</a>
+    <a href="voting/">Vote</a>
+  </div>
+  <div class="sub">
+    <a href="#setup" class="on"><i>1</i>Set up</a>
+    <a href="#shifts"><i>2</i><span class="long">Pick a shift</span><span class="short">Shifts</span></a>
+    <a href="#assets"><i>3</i><span class="long">Build assets</span><span class="short">Assets</span></a>
+  </div>
 </div></nav>
 
 <main><div class="wrap">
@@ -494,7 +514,7 @@ Use short spoken sentences and concrete details from our canvas. After the pitch
     });
   });
   // a nav click to a section opens its panels so the user lands on content, not just titles
-  document.querySelectorAll('nav a').forEach(function(a){
+  document.querySelectorAll('nav .sub a').forEach(function(a){
     a.addEventListener('click',function(){
       var id=a.getAttribute('href').slice(1);
       var sec=document.getElementById(id);
@@ -502,7 +522,7 @@ Use short spoken sentences and concrete details from our canvas. After the pitch
     });
   });
   var secs=[].slice.call(document.querySelectorAll('section[id]'));
-  var links=[].slice.call(document.querySelectorAll('nav a'));
+  var links=[].slice.call(document.querySelectorAll('nav .sub a'));
   function onScroll(){
     var y=window.scrollY+120,cur=secs[0].id;
     secs.forEach(function(s){if(s.offsetTop<=y)cur=s.id;});
