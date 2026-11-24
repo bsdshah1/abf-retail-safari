@@ -131,6 +131,9 @@
   .btn.ghost{background:transparent;color:var(--ink-soft);border-color:var(--rule-strong);font-size:12.5px;padding:7px 14px}
   .btn.ghost:hover{border-color:var(--ink);color:var(--ink);background:transparent}
 
+  .lock h2{font-family:var(--display);font-size:25px;font-weight:600;letter-spacing:-.01em;margin-bottom:6px}
+  .lock-row{display:flex;gap:10px;flex-wrap:wrap}
+  .lock-row input{flex:1 1 200px;max-width:320px;font-size:17px}
   .done-panel{border-color:#b9dcc7;background:#f3faf6}
   .done-panel h2{font-family:var(--display);font-size:25px;font-weight:600;letter-spacing:-.01em;margin-bottom:6px}
   .done-panel p{color:var(--ink-soft);max-width:60ch}
@@ -266,9 +269,20 @@
   </div>
 
   <div class="view" id="view-results" role="tabpanel" aria-labelledby="tab-results" hidden>
+    <form class="panel panel-pad field lock" id="lock" novalidate>
+      <h2>Results are locked</h2>
+      <p class="note" style="margin:0 0 16px">Enter the organiser's password to see the leaderboard. Scoring does not need it.</p>
+      <label for="pw">Password</label>
+      <div class="lock-row">
+        <input id="pw" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="go" aria-describedby="pw-err">
+        <button class="btn" type="submit">Unlock results</button>
+      </div>
+      <p class="gerr" id="pw-err" role="alert" hidden style="margin:10px 0 0">That password is not right. Check it and try again.</p>
+    </form>
+    <div id="results-body" hidden>
     <div class="sec-head" style="margin-top:0">
       <h2>Leaderboard</h2>
-      <span><span class="meta" id="rmeta" role="status"></span> <button type="button" class="btn ghost" id="refresh">Refresh</button></span>
+      <span><span class="meta" id="rmeta" role="status"></span> <button type="button" class="btn ghost" id="refresh">Refresh</button> <button type="button" class="btn ghost" id="relock">Lock</button></span>
     </div>
     <div class="panel" id="lead-panel"><ol class="lead" id="lead"></ol></div>
     <div class="legend" id="legend"></div>
@@ -285,6 +299,7 @@
         <thead id="judge-head"></thead>
         <tbody id="judge-rows"></tbody>
       </table></div>
+    </div>
     </div>
   </div>
 
@@ -595,6 +610,33 @@ function render(rows) {
   $("rmeta").textContent = judges.length + " judge" + (judges.length === 1 ? "" : "s") + " in · updated " + time;
 }
 
+/* ---------- results password ----------
+   A convenience lock so the room does not see the leaderboard early. It is checked in the
+   browser, so it is not real security: change the word here to change the password. */
+const RESULTS_PASSWORD = "foolproof";
+const session = {
+  get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { v === null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, v); } catch (e) {} }
+};
+let unlocked = session.get("scoring-unlocked") === "1";
+function applyLock() {
+  $("lock").hidden = unlocked;
+  $("results-body").hidden = !unlocked;
+}
+$("lock").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const ok = $("pw").value.trim().toLowerCase() === RESULTS_PASSWORD;
+  $("pw").classList.toggle("bad", !ok);
+  $("pw-err").hidden = ok;
+  if (!ok) { $("pw").select(); return; }
+  unlocked = true;
+  session.set("scoring-unlocked", "1");
+  $("pw").value = "";
+  show("results");
+});
+$("pw").addEventListener("input", () => { $("pw").classList.remove("bad"); $("pw-err").hidden = true; });
+$("relock").addEventListener("click", () => { unlocked = false; session.set("scoring-unlocked", null); show("results"); });
+
 /* ---------- tabs ---------- */
 function show(which) {
   const score = which === "score";
@@ -604,10 +646,13 @@ function show(which) {
   $("tab-score").setAttribute("aria-selected", score);
   $("tab-results").setAttribute("aria-selected", !score);
   clearInterval(timer);
-  if (!score) { loadResults(); timer = setInterval(() => { if (!document.hidden) loadResults(); }, 20000); }
+  applyLock();
+  if (!score && unlocked) { loadResults(); timer = setInterval(() => { if (!document.hidden) loadResults(); }, 20000); }
+  if (!score && !unlocked) $("pw").focus({ preventScroll: true });
   if (location.hash !== "#" + which) history.replaceState(null, "", "#" + which);
   const top = document.querySelector("nav").offsetTop;
-  if (window.scrollY > top) window.scrollTo(0, top);
+  // Results always opens with the menu at the top, so the password box or the leaderboard is in view.
+  if (!score || window.scrollY > top) window.scrollTo(0, top);
 }
 $("tab-score").addEventListener("click", () => show("score"));
 $("tab-results").addEventListener("click", () => show("results"));
