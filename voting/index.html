@@ -45,19 +45,14 @@
   .criteria p{font-size:13.5px;color:var(--ink-soft);margin-top:6px}
   .criteria p b{color:var(--ink);font-weight:600}
 
-  nav{position:sticky;top:0;z-index:30;background:rgba(246,241,243,.94);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--rule)}
-  nav .wrap{display:flex;align-items:center;gap:18px;padding-top:8px;padding-bottom:8px}
-  .switch{display:flex;flex-shrink:0;background:var(--paper);border:1px solid var(--rule-strong);border-radius:6px;padding:2px}
-  .switch a{font-family:var(--sans);font-size:13px;font-weight:600;line-height:1;color:var(--ink-soft);text-decoration:none;padding:8px 12px;border-radius:4px;transition:color .15s,background .15s}
-  .switch a:hover{color:var(--ink)}
-  .switch a[aria-current]{background:var(--ink);color:#fff}
-  .sub{display:flex;gap:22px;min-width:0;overflow-x:auto;scrollbar-width:none;border-left:1px solid var(--rule-strong);padding-left:18px}
-  .sub::-webkit-scrollbar{display:none}
-  .sub a,.sub button{font-family:var(--sans);font-size:13px;font-weight:600;line-height:1;color:var(--muted);background:none;border:0;cursor:pointer;text-decoration:none;white-space:nowrap;padding:9px 0 7px;border-bottom:2px solid transparent;transition:color .15s}
-  .sub a:hover,.sub button:hover{color:var(--ink)}
-  .sub a.on,.sub button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--crimson)}
-  .sub i{font-family:var(--serif);font-style:normal;font-weight:600;color:var(--crimson);margin-right:6px}
-  nav :focus-visible{outline:2px solid var(--crimson);outline-offset:2px;border-radius:3px}
+  nav{position:sticky;top:0;z-index:30;background:var(--paper);border-bottom:1px solid var(--rule-strong);box-shadow:0 4px 14px rgba(34,28,40,.05)}
+  nav .wrap{display:flex;align-items:center;gap:6px;padding-top:8px;padding-bottom:8px}
+  nav a,nav button{font-family:var(--sans);font-size:14px;font-weight:600;line-height:1;color:var(--ink-soft);background:transparent;border:0;border-radius:5px;padding:11px 14px;text-decoration:none;white-space:nowrap;cursor:pointer;transition:background .15s,color .15s}
+  nav a:hover,nav button:hover{background:var(--page);color:var(--ink)}
+  nav a.on,nav button[aria-selected="true"]{background:var(--ink);color:#fff}
+  nav a:focus-visible,nav button:focus-visible{outline:2px solid var(--crimson);outline-offset:2px}
+  nav a.back{margin-left:auto;color:var(--muted);font-size:13px}
+  nav a.back::before{content:"\2190\00a0"}
   :focus-visible{outline:2px solid var(--crimson);outline-offset:2px}
 
   main{padding:36px 0 0}
@@ -198,15 +193,14 @@
     th:first-child,td:first-child{padding-left:18px}
     th:last-child,td:last-child{padding-right:18px}
     .btn{padding:12px 18px}
-    nav .wrap{gap:12px}
-    .sub{gap:16px;padding-left:12px}
-    .switch a{padding:8px 10px}
+    nav .wrap{gap:2px;padding-left:14px;padding-right:14px}
+    nav a,nav button{padding:11px 11px}
     table{font-size:13px}
     th,td{padding:10px 6px}
     thead th{letter-spacing:.03em;font-size:10.5px}
     .long{display:none}.short{display:inline}
   }
-  @media(max-width:380px){.sub{gap:12px}.switch a{padding:8px}}
+  @media(max-width:380px){nav a,nav button{padding:11px 8px;font-size:13px}}
   @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -230,15 +224,10 @@
   <div class="criteria" id="criteria"></div>
 </div></header>
 
-<nav aria-label="Workshop"><div class="wrap">
-  <div class="switch">
-    <a href="../">Prompts</a>
-    <a href="./" aria-current="page">Vote</a>
-  </div>
-  <div class="sub" role="tablist" aria-label="Vote">
-    <button role="tab" id="tab-score" aria-controls="view-score" aria-selected="true">Score</button>
-    <button role="tab" id="tab-results" aria-controls="view-results" aria-selected="false">Results</button>
-  </div>
+<nav aria-label="Views"><div class="wrap" role="tablist">
+  <button role="tab" id="tab-score" aria-controls="view-score" aria-selected="true">Score</button>
+  <button role="tab" id="tab-results" aria-controls="view-results" aria-selected="false">Results</button>
+  <a class="back" href="../">Retail Safari</a>
 </div></nav>
 
 <main><div class="wrap">
