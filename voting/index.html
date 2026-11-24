@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitch scoring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Tokens, type and component shapes are taken from the Retail Safari page. */
+  :root{
+    --ink:#221c28;--crimson:#D6004F;--crimson-deep:#a8003e;--paper:#ffffff;--page:#f6f1f3;--rule:#e8e0e4;--rule-strong:#dccfd6;
+    --muted:#6a6473;--ink-soft:#4a4453;--amber:#f6c560;--ok:#0b6b3a;--tint:#fbf6f4;
+    --retail:#00B4E1;--grocery:#0CAF9E;--ingredients:#F4881C;--sugar:#B31572;--agri:#058E32;
+    --serif:'Fraunces',Georgia,serif;--sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:var(--ink);background:var(--page);line-height:1.55;-webkit-font-smoothing:antialiased}
+  [hidden]{display:none!important}
+  .wrap{max-width:940px;margin:0 auto;padding:0 28px}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--crimson);display:flex;align-items:center;gap:9px}
+  .eyebrow::before{content:"";width:3px;height:14px;background:var(--crimson);flex-shrink:0}
+
+  .masthead{background:#fff;border-bottom:1px solid #E0E0E0}
+  .masthead .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;padding-bottom:12px}
+  .abf,.abf svg{width:80px;height:40px;display:block;flex-shrink:0}
+  .masthead .title{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.15;letter-spacing:-.015em;color:#1A1A1A;text-align:center}
+  .fp,.fp svg{width:108px;display:block;flex-shrink:0}
+
+  header.hero{background:var(--paper);border-bottom:1px solid var(--rule)}
+  header.hero .wrap{padding-top:40px;padding-bottom:0}
+  header.hero h1{font-family:var(--serif);font-size:46px;line-height:1.04;font-weight:600;letter-spacing:-.015em;margin:14px 0 14px;text-wrap:balance}
+  header.hero .stand{font-size:17px;color:var(--ink-soft);max-width:60ch;line-height:1.6}
+  .criteria{margin-top:28px;border-top:1px solid var(--rule);display:grid;grid-template-columns:repeat(3,1fr)}
+  .criteria .s{padding:16px 22px 18px 0;border-right:1px solid var(--rule)}
+  .criteria .s + .s{padding-left:22px}
+  .criteria .s:last-child{border-right:none;padding-right:0}
+  .criteria .n{font-family:var(--serif);font-size:30px;font-weight:600;color:var(--crimson);line-height:1}
+  .criteria .n small{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.02em;margin-left:4px}
+  .criteria p{font-size:13.5px;color:var(--ink-soft);margin-top:6px}
+  .criteria p b{color:var(--ink);font-weight:600}
+
+  nav{position:sticky;top:0;z-index:30;background:rgba(246,241,243,.94);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--rule)}
+  nav .wrap{display:flex;gap:30px;padding-top:6px;padding-bottom:0}
+  nav button{font:inherit;background:none;border:0;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);padding:10px 0 11px;border-bottom:2px solid transparent;transition:color .15s}
+  nav button:hover,nav a.back:hover{color:var(--ink)}
+  nav a.back{margin-left:auto;font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;padding:10px 0 11px}
+  nav a.back::before{content:"\2190\00a0"}
+  nav button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--crimson)}
+  :focus-visible{outline:2px solid var(--crimson);outline-offset:2px}
+
+  main{padding:36px 0 0}
+  .view{padding-bottom:48px}
+  body.scoring footer{padding-bottom:78px}
+  .short{display:none}
+  .sec-head{margin:34px 0 16px;display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .sec-head h2{font-family:var(--serif);font-size:27px;font-weight:600;letter-spacing:-.01em}
+  .sec-head .hint{font-size:13px;color:var(--muted)}
+
+  .panel{background:var(--paper);border:1px solid var(--rule);border-radius:6px;margin-bottom:16px}
+  .panel-pad{padding:22px 26px}
+  .field label,.score label{display:block;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:6px}
+  input{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--rule-strong);border-radius:5px;width:100%;padding:12px 13px;transition:border-color .15s,box-shadow .15s}
+  input:hover{border-color:var(--muted)}
+  input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(214,0,79,.18)}
+  input.bad{border-color:var(--crimson);background:#fff5f8}
+  .field input{max-width:360px;font-size:17px}
+  .note{font-size:13px;color:var(--muted);margin-top:8px;max-width:64ch}
+  .note.info{color:var(--ink-soft)}
+
+  .group-head{display:flex;align-items:center;gap:13px;padding:20px 26px 0}
+  .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+  .g1 .dot{background:var(--sugar)}.g2 .dot{background:var(--retail)}.g3 .dot{background:var(--grocery)}.g4 .dot{background:var(--ingredients)}.g5 .dot{background:var(--agri)}
+  .idx{font-family:var(--serif);font-size:15px;font-weight:600;color:var(--muted);min-width:22px}
+  .gtitle{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:-.01em;line-height:1.15}
+  .gwho{font-size:13px;color:var(--muted);font-weight:500;line-height:1.4}
+  .group-head .gwho{display:block;margin-top:3px}
+  .group-head{align-items:flex-start}
+  .group-head .dot{margin-top:9px}.group-head .idx{margin-top:4px}
+  .lname .gwho{flex-basis:100%;padding-left:20px;margin-top:-4px}
+  .gtotal{margin-left:auto;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .gtotal b{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1}
+  .gtotal span{font-size:12px;color:var(--muted);font-weight:600}
+  .gtotal.done b{color:var(--ok)}
+  .scores{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 30px;padding:16px 26px 20px}
+  .srow{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .score label{margin-bottom:0}
+  .sval{font-variant-numeric:tabular-nums;white-space:nowrap}
+  .sval b{font-size:20px;font-weight:600}
+  .sval span{font-size:13px;font-weight:600;color:var(--muted)}
+  .score.unset .sval b{color:var(--muted)}
+  .score.bad label{color:var(--crimson-deep)}
+  .slide{display:flex;align-items:center;gap:8px}
+  .step{font:inherit;font-size:20px;line-height:1;width:38px;height:38px;flex-shrink:0;border:1px solid var(--rule-strong);background:var(--paper);color:var(--ink-soft);border-radius:5px;cursor:pointer;touch-action:manipulation;transition:border-color .15s,color .15s}
+  .step:hover{border-color:var(--ink);color:var(--ink)}
+  .step:active{background:var(--tint)}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;min-width:0;height:44px;padding:0;border:0;background:transparent;box-shadow:none;cursor:pointer;touch-action:pan-y}
+  input[type=range]:focus{box-shadow:none}
+  input[type=range]:focus-visible{outline:2px solid var(--crimson);outline-offset:2px;border-radius:5px}
+  input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(to right,var(--crimson) var(--p,0%),var(--rule-strong) var(--p,0%))}
+  input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:var(--rule-strong)}
+  input[type=range]::-moz-range-progress{height:6px;border-radius:3px;background:var(--crimson)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-11px;border-radius:50%;background:var(--crimson);border:3px solid var(--paper);box-shadow:0 0 0 1px var(--crimson),0 2px 6px rgba(34,28,40,.25)}
+  input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--crimson);border:3px solid var(--paper);box-shadow:0 0 0 1px var(--crimson),0 2px 6px rgba(34,28,40,.25)}
+  .unset input[type=range]::-webkit-slider-thumb{background:var(--paper);box-shadow:0 0 0 1px var(--muted),0 2px 6px rgba(34,28,40,.18)}
+  .unset input[type=range]::-moz-range-thumb{background:var(--paper);box-shadow:0 0 0 1px var(--muted),0 2px 6px rgba(34,28,40,.18)}
+  .bad input[type=range]::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--crimson),0 2px 6px rgba(34,28,40,.18)}
+  .gerr{margin:-8px 26px 18px;font-size:13px;font-weight:600;color:var(--crimson-deep)}
+
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--paper);border-top:1px solid var(--rule-strong);box-shadow:0 -6px 24px rgba(34,28,40,.06)}
+  .bar .wrap{display:flex;align-items:center;gap:16px;padding-top:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom))}
+  .progress{flex:1;min-width:0}
+  .progress .txt{font-size:13px;font-weight:600;color:var(--ink-soft)}
+  .progress .txt.bad{color:var(--crimson-deep)}
+  .track{height:4px;background:var(--rule);border-radius:2px;margin-top:6px;overflow:hidden}
+  .track i{display:block;height:100%;width:0;background:var(--crimson);transition:width .25s cubic-bezier(.22,1,.36,1)}
+  .btn{font:inherit;font-size:15px;font-weight:600;border-radius:5px;padding:12px 22px;cursor:pointer;border:1px solid var(--crimson);background:var(--crimson);color:#fff;transition:background .15s,border-color .15s;white-space:nowrap}
+  .btn:hover{background:var(--crimson-deep);border-color:var(--crimson-deep)}
+  .btn:active{transform:translateY(1px)}
+  .btn[disabled]{background:var(--rule-strong);border-color:var(--rule-strong);color:var(--ink-soft);cursor:progress}
+  .btn.ghost{background:transparent;color:var(--ink-soft);border-color:var(--rule-strong);font-size:12.5px;padding:7px 14px}
+  .btn.ghost:hover{border-color:var(--ink);color:var(--ink);background:transparent}
+
+  .done-panel{border-color:#b9dcc7;background:#f3faf6}
+  .done-panel h2{font-family:var(--serif);font-size:25px;font-weight:600;letter-spacing:-.01em;margin-bottom:6px}
+  .done-panel p{color:var(--ink-soft);max-width:60ch}
+  .done-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+
+  /* results */
+  .lead{list-style:none}
+  .lead li{display:grid;grid-template-columns:34px 1fr auto;gap:8px 14px;align-items:start;padding:18px 26px;border-bottom:1px solid var(--rule)}
+  .lead li:last-child{border-bottom:none}
+  .rank{font-family:var(--serif);font-size:24px;font-weight:600;color:var(--muted);line-height:1}
+  .lead li.first .rank{color:var(--crimson)}
+  .lname{display:flex;align-items:center;gap:10px;min-width:0;flex-wrap:wrap}
+  .lname .gtitle{font-size:20px}
+  .ltotal{font-family:var(--serif);font-size:28px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1;text-align:right}
+  .ltotal small{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--muted);margin-left:3px}
+  .stack{grid-column:2 / 4;display:flex;height:10px;background:var(--page);border-radius:2px;overflow:hidden}
+  .stack i{display:block;height:100%;transition:width .4s cubic-bezier(.22,1,.36,1)}
+  .c-insight{background:var(--crimson)}.c-ai{background:var(--ink)}.c-outcome{background:var(--amber)}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-soft);font-weight:500}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+  .scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px}
+  th,td{padding:11px 12px;text-align:right;border-bottom:1px solid var(--rule);white-space:nowrap}
+  th:first-child,td:first-child{text-align:left;padding-left:26px}
+  th:last-child,td:last-child{padding-right:26px}
+  thead th{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--tint)}
+  tbody tr:last-child td{border-bottom:none}
+  td.total{font-weight:700}
+  .empty{padding:44px 26px;text-align:center}
+  .empty h3{font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:6px}
+  .empty p{color:var(--muted);max-width:44ch;margin:0 auto 18px}
+  .meta{font-size:12.5px;color:var(--muted)}
+  .skel{height:74px;border-bottom:1px solid var(--rule);background:linear-gradient(90deg,var(--paper) 0%,var(--tint) 50%,var(--paper) 100%);background-size:200% 100%;animation:sk 1.2s linear infinite}
+  @keyframes sk{to{background-position:-200% 0}}
+
+  footer{border-top:1px solid var(--rule);background:var(--paper)}
+  footer .wrap{padding-top:22px;padding-bottom:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+  footer .f-left{font-family:var(--serif);font-size:15px;font-weight:600}
+  footer .f-right{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  #view-score ~ footer{margin-bottom:0}
+
+  @media(max-width:680px){
+    .wrap{padding:0 18px}
+    .masthead .title{font-size:18px}
+    .abf,.abf svg{width:64px;height:32px}
+    .fp,.fp svg{width:84px}
+    header.hero .wrap{padding-top:28px}
+    header.hero h1{font-size:34px}
+    header.hero .stand{font-size:16px}
+    .criteria .s{padding:14px 10px 14px 0}
+    .criteria .s + .s{padding-left:12px}
+    .criteria .n{font-size:24px}
+    .criteria p{font-size:12.5px}
+    .criteria p span{display:none}
+    .panel-pad{padding:18px}
+    .group-head{padding:18px 18px 0;gap:10px}
+    .gtitle{font-size:20px}
+    .scores{grid-template-columns:1fr;padding:14px 18px 16px;gap:10px}
+    .gerr{margin:-6px 18px 16px}
+    .lead li{padding:16px 18px;grid-template-columns:26px 1fr auto;gap:4px 10px}
+    th:first-child,td:first-child{padding-left:18px}
+    th:last-child,td:last-child{padding-right:18px}
+    .btn{padding:12px 18px}
+    table{font-size:13px}
+    th,td{padding:10px 6px}
+    thead th{letter-spacing:.03em;font-size:10.5px}
+    .long{display:none}.short{display:inline}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body class="scoring">
+
+<div class="masthead"><div class="wrap">
+  <div class="abf" aria-hidden="true"><svg width="64" height="32" viewBox="0 0 64 32" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="mask0_2856_66" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="32"><path d="M64 0H0V32H64V0Z" fill="white"/></mask><g mask="url(#mask0_2856_66)"><path d="M2.84079 18.1983H0.379883V10.5182H2.85318C4.37129 10.5182 5.08905 11.4977 5.08905 12.4306C5.09645 12.7619 5.0096 13.0884 4.83881 13.3713C4.66803 13.6542 4.42049 13.8816 4.12561 14.0264V14.0382C4.54375 14.13 4.91803 14.3642 5.18585 14.7015C5.45367 15.0389 5.59878 15.4589 5.59692 15.8915C5.59692 16.9871 4.7952 18.1983 2.84423 18.1983M2.50015 11.7071H1.80509V13.735H2.6536C2.92155 13.7259 3.17585 13.6133 3.36407 13.4203C3.55229 13.2273 3.66008 12.9687 3.66522 12.6977C3.66522 12.1155 3.28879 11.7064 2.50015 11.7064M2.77059 14.8883H1.80716V17.0115H2.71348C3.66728 17.0115 4.13799 16.5941 4.13799 15.8929C4.13799 15.2988 3.6432 14.8904 2.77266 14.8904" fill="#D0043C"/><path d="M9.71348 14.0035C9.51393 13.882 9.28701 13.814 9.0542 13.8059C8.65008 13.83 8.26879 14.0033 7.98274 14.2928V18.1968H6.57129V12.6845H7.75977L7.91322 13.2668C8.31768 12.8377 8.8704 12.583 9.45611 12.5558C9.72183 12.5703 9.97662 12.6675 10.1856 12.8341L9.71348 14.0035Z" fill="#D0043C"/><path d="M11.796 11.6383C11.6328 11.6293 11.4757 11.5723 11.3442 11.4742C11.2127 11.3761 11.1124 11.2412 11.0558 11.0862C10.9992 10.9312 10.9886 10.7629 11.0255 10.6019C11.0624 10.4409 11.145 10.2944 11.2633 10.1803C11.3816 10.0663 11.5303 9.9897 11.6911 9.96004C11.8518 9.93038 12.0177 9.94894 12.1682 10.0134C12.3187 10.0779 12.4472 10.1855 12.538 10.3229C12.6287 10.4603 12.6777 10.6216 12.6789 10.7868C12.6764 10.9014 12.6516 11.0143 12.6058 11.1191C12.56 11.224 12.4943 11.3187 12.4123 11.3978C12.3302 11.4769 12.2336 11.5388 12.1278 11.5801C12.0221 11.6214 11.9093 11.6411 11.796 11.6383ZM11.0858 12.6866H12.4993V18.1962H11.0858V12.6866Z" fill="#D0043C"/><path d="M15.8687 18.3165C14.8784 18.3165 14.4924 17.7683 14.4924 17.024V13.7322H13.5V12.6887H14.4889V11.4184L15.9003 11.001V12.6887H17.6318L17.2189 13.7377H15.8997V16.512C15.8997 16.944 16.0655 17.1381 16.4303 17.1381C16.7615 17.124 17.0828 17.0195 17.36 16.8355L17.7385 17.8031C17.1777 18.1556 16.5268 18.3339 15.8666 18.3158" fill="#D0043C"/><path d="M19.3907 11.6383C19.2275 11.6293 19.0704 11.5723 18.9389 11.4742C18.8074 11.3761 18.7071 11.2412 18.6505 11.0862C18.5939 10.9312 18.5833 10.7629 18.6202 10.6019C18.6571 10.4409 18.7398 10.2944 18.858 10.1803C18.9763 10.0663 19.125 9.9897 19.2858 9.96004C19.4466 9.93038 19.6125 9.94894 19.7629 10.0134C19.9134 10.0779 20.042 10.1855 20.1327 10.3229C20.2235 10.4603 20.2725 10.6216 20.2736 10.7868C20.2711 10.9014 20.2463 11.0143 20.2005 11.1191C20.1548 11.224 20.089 11.3187 20.007 11.3978C19.925 11.4769 19.8283 11.5388 19.7225 11.5801C19.6168 11.6214 19.504 11.6411 19.3907 11.6383ZM18.6846 12.6866H20.0975V18.1962H18.6846V12.6866Z" fill="#D0043C"/><path d="M23.0213 18.3165C22.301 18.3397 21.5883 18.1623 20.9609 17.8038L21.42 16.8362C21.866 17.1244 22.386 17.2739 22.9153 17.2661C23.492 17.2661 23.8692 17.0574 23.8692 16.6838C23.8692 15.6939 21.303 16.0668 21.303 14.1906C21.303 13.2348 22.0682 12.5586 23.4108 12.5586C23.9688 12.5429 24.5245 12.6374 25.0466 12.8369V14.0014C24.5477 13.7822 24.0124 13.6597 23.4686 13.6403C22.9745 13.6403 22.68 13.792 22.68 14.1183C22.68 14.9913 25.295 14.7005 25.295 16.6003C25.295 17.8358 24.2009 18.3137 23.0241 18.3137" fill="#D0043C"/><path d="M29.8484 18.1962V14.9822C29.8484 14.3645 29.7541 13.7349 29.0005 13.7349C28.4935 13.7882 28.0177 14.0082 27.6462 14.361V18.1962H26.2334V9.94781H27.6462V13.2292C28.1659 12.7942 28.8199 12.5567 29.4946 12.5579C30.3542 12.5579 31.2722 12.9662 31.2722 14.5857V18.1962H29.8484Z" fill="#D0043C"/><path d="M39.6845 11.6967H37.1631V13.7363H39.6474L39.6591 14.8904H37.1631V18.1997H35.7393V10.5197H40.0747L39.6845 11.6967Z" fill="#D0043C"/><path d="M45.0878 17.5235C44.8225 17.786 44.5074 17.9917 44.1615 18.128C43.8156 18.2643 43.446 18.3284 43.0749 18.3165C42.7016 18.3374 42.3282 18.2778 41.9794 18.1418C41.6305 18.0058 41.3143 17.7964 41.0516 17.5276C40.7888 17.2587 40.5856 16.9364 40.4554 16.5822C40.3251 16.2279 40.2708 15.8498 40.2961 15.4727C40.2852 15.0804 40.3515 14.6899 40.4912 14.3238C40.6308 13.9577 40.841 13.6232 41.1095 13.3398C41.3716 13.084 41.6813 12.8832 42.0207 12.7491C42.36 12.6151 42.7223 12.5503 43.0866 12.5586C43.4635 12.5451 43.8392 12.6084 44.1915 12.7448C44.5437 12.8811 44.8651 13.0878 45.1367 13.3523C45.6394 13.9209 45.905 14.664 45.8778 15.4261C45.8918 15.8113 45.8291 16.1954 45.6935 16.5557C45.5579 16.9159 45.3522 17.245 45.0885 17.5235M43.0639 13.6661C42.1692 13.6661 41.7329 14.4125 41.7329 15.4372C41.7329 16.5106 42.2395 17.2327 43.099 17.2327C43.9812 17.2327 44.4292 16.4751 44.4292 15.4372C44.4292 14.377 43.9351 13.6661 43.0639 13.6661Z" fill="#D0043C"/><path d="M51.4912 17.5235C51.2259 17.7858 50.9109 17.9912 50.5651 18.1275C50.2193 18.2637 49.8499 18.328 49.479 18.3165C48.7763 18.3399 48.0908 18.0942 47.5597 17.6285C47.2746 17.3502 47.0508 17.0144 46.9027 16.6428C46.7546 16.2712 46.6856 15.8723 46.7002 15.472C46.6892 15.0798 46.7554 14.6893 46.895 14.3232C47.0345 13.9571 47.2445 13.6226 47.5129 13.3391C47.775 13.083 48.0847 12.8821 48.4243 12.748C48.7638 12.6139 49.1263 12.5492 49.4907 12.5579C49.8675 12.5443 50.2432 12.6076 50.5953 12.744C50.9474 12.8803 51.2687 13.087 51.5401 13.3516C52.0434 13.9198 52.3091 14.6632 52.2812 15.4254C52.2953 15.8106 52.2327 16.1948 52.0971 16.555C51.9615 16.9153 51.7557 17.2444 51.4919 17.5228M49.4673 13.6654C48.5727 13.6654 48.1357 14.4118 48.1357 15.4365C48.1357 16.5099 48.6429 17.232 49.5024 17.232C50.3853 17.232 50.8333 16.4744 50.8333 15.4365C50.8333 14.3763 50.3385 13.6654 49.4673 13.6654Z" fill="#D0043C"/><path d="M56.1296 18.3158C54.4704 18.3158 53.1017 17.3475 53.1017 15.4838C53.0984 15.0822 53.1774 14.6841 53.3337 14.3149C53.4901 13.9456 53.7204 13.6131 54.0101 13.3382C54.2999 13.0633 54.6428 12.8521 55.0173 12.7178C55.3918 12.5835 55.7897 12.5291 56.186 12.5579C56.4225 12.5533 56.6589 12.569 56.8928 12.6045V9.94781H58.3063V17.8734C57.6245 18.1919 56.8781 18.3437 56.1276 18.3165M56.8928 13.7475C56.6779 13.6892 56.456 13.6616 56.2335 13.6654C56.0032 13.6515 55.7725 13.6872 55.5569 13.7703C55.3413 13.8534 55.1456 13.982 54.9829 14.1474C54.8202 14.3128 54.6942 14.5113 54.6132 14.7297C54.5322 14.9481 54.498 15.1815 54.5131 15.4143C54.4993 15.6518 54.5344 15.8896 54.6163 16.1126C54.6982 16.3357 54.8251 16.5391 54.9888 16.71C55.1526 16.8809 55.3497 17.0156 55.5676 17.1054C55.7856 17.1953 56.0196 17.2384 56.2549 17.232C56.4694 17.2315 56.683 17.2039 56.8907 17.1499L56.8928 13.7475Z" fill="#D0043C"/><path d="M61.2166 18.3165C60.4964 18.3396 59.7836 18.1623 59.1562 17.8038L59.6153 16.8362C60.0644 17.1138 60.5846 17.2515 61.1107 17.232C61.6874 17.232 62.0638 17.0574 62.0638 16.6838C62.0638 15.6939 59.4976 16.0668 59.4976 14.1906C59.4976 13.2348 60.2628 12.5586 61.6041 12.5586C62.1625 12.5428 62.7186 12.6373 63.2412 12.8369V14.0014C62.741 13.7902 62.206 13.6758 61.664 13.664C61.1692 13.664 60.8746 13.792 60.8746 14.119C60.8746 14.992 63.4897 14.7012 63.4897 16.6011C63.4897 17.8365 62.3955 18.3144 61.2187 18.3144" fill="#D0043C"/><path d="M5.51144 7.93737L4.7455 6.01459H1.97906L1.2613 7.93737H-0.142578L2.87162 0.221893H3.90388L7.02336 7.93737H5.51144ZM3.6754 3.1012C3.55714 2.78904 3.45876 2.46955 3.38087 2.14468H3.3671C3.29827 2.46272 3.20367 2.77449 3.08427 3.07685L2.4133 4.8605H4.29682L3.6754 3.1012Z" fill="#D0043C"/><path d="M9.58186 8.05077C8.86147 8.07493 8.14847 7.89751 7.52148 7.53807L7.98049 6.57111C8.42628 6.85946 8.946 7.0092 9.4752 7.00173C10.0526 7.00173 10.429 6.79303 10.429 6.41946C10.429 5.42885 7.86213 5.8024 7.86213 3.92553C7.86213 2.96971 8.62806 2.29425 9.97068 2.29425C10.5286 2.27871 11.0843 2.37322 11.6065 2.57251V3.73912C11.11 3.50729 10.5745 3.3725 10.0285 3.34189C9.53506 3.34189 9.24122 3.52832 9.24122 3.85459C9.24122 4.72972 11.8563 4.43754 11.8563 6.33667C11.8563 7.57215 10.7621 8.05007 9.58531 8.05007" fill="#D0043C"/><path d="M14.504 8.05079C13.7822 8.07579 13.0676 7.89834 12.4395 7.53809L12.8985 6.57113C13.3442 6.85956 13.864 7.0093 14.3932 7.00175C14.9706 7.00175 15.347 6.79305 15.347 6.41948C15.347 5.42887 12.7815 5.80242 12.7815 3.92555C12.7815 2.96973 13.546 2.29427 14.888 2.29427C15.4462 2.27894 16.0019 2.37344 16.5244 2.57253V3.73914C16.0277 3.50741 15.4921 3.37263 14.9458 3.34191C14.4538 3.34191 14.1571 3.52834 14.1571 3.85461C14.1571 4.72974 16.7722 4.43756 16.7722 6.33669C16.7722 7.57217 15.6766 8.05009 14.5012 8.05009" fill="#D0043C"/><path d="M22.3448 7.25844C22.0794 7.52089 21.7643 7.72638 21.4184 7.86255C21.0725 7.99871 20.7029 8.06274 20.3318 8.05079C19.6293 8.07403 18.9439 7.82859 18.4125 7.36348C18.1276 7.08513 17.9039 6.74926 17.7559 6.3777C17.6079 6.00614 17.539 5.60724 17.5537 5.20697C17.5426 4.81476 17.6087 4.4242 17.7482 4.05805C17.8878 3.69189 18.0979 3.35744 18.3664 3.0741C18.6285 2.81799 18.9383 2.61705 19.2778 2.48294C19.6173 2.34883 19.9798 2.28422 20.3442 2.29287C20.7207 2.27934 21.096 2.34253 21.4479 2.47865C21.7997 2.61477 22.1209 2.82105 22.3922 3.08522C22.8958 3.65382 23.1615 4.39772 23.1334 5.16035C23.1474 5.5455 23.0848 5.92957 22.9493 6.28983C22.8139 6.6501 22.6083 6.97992 22.3448 7.25844ZM20.3181 3.34193C19.4235 3.34193 18.9892 4.1454 18.9892 5.17218C18.9892 6.24418 19.495 6.93148 20.3546 6.93148C21.2375 6.93148 21.6855 6.2094 21.6855 5.17218C21.6855 4.11131 21.1907 3.34193 20.3181 3.34193Z" fill="#D0043C"/><path d="M26.6997 8.0508C26.3284 8.07041 25.9572 8.00974 25.6108 7.87283C25.2645 7.73592 24.9511 7.52592 24.6914 7.25685C24.4318 6.98778 24.2318 6.66582 24.105 6.31245C23.9782 5.95909 23.9274 5.58245 23.956 5.20766C23.9447 4.82181 24.0117 4.4377 24.1527 4.07895C24.2936 3.7202 24.5057 3.3944 24.7758 3.12154C25.046 2.84868 25.3684 2.63453 25.7234 2.49227C26.0784 2.35 26.4584 2.28264 26.8401 2.29428C27.3876 2.27104 27.9305 2.40436 28.4064 2.67896V3.73983C27.9974 3.45075 27.5033 3.31071 27.0053 3.34262C26.7792 3.34517 26.5561 3.39444 26.3495 3.48739C26.143 3.58033 25.9575 3.71498 25.8043 3.88308C25.6512 4.05119 25.5337 4.24918 25.459 4.46488C25.3843 4.68059 25.3541 4.90944 25.3702 5.13739C25.3459 5.36614 25.3701 5.5975 25.4411 5.81608C25.5121 6.03466 25.6283 6.23547 25.782 6.40516C25.9357 6.57485 26.1233 6.70954 26.3324 6.80029C26.5416 6.89104 26.7674 6.93576 26.995 6.93149C27.4585 6.93488 27.9142 6.81028 28.3128 6.57114L28.6665 7.45671C28.0784 7.83531 27.3976 8.04102 26.7004 8.0508" fill="#D0043C"/><path d="M30.3259 1.37251C30.1628 1.36341 30.0059 1.30627 29.8746 1.20815C29.7432 1.11002 29.6432 0.975193 29.5867 0.820282C29.5303 0.665371 29.5199 0.497153 29.5569 0.336353C29.5939 0.175552 29.6766 0.0292061 29.7948 -0.0846519C29.9131 -0.19851 30.0617 -0.274892 30.2224 -0.3044C30.3831 -0.333907 30.5488 -0.315248 30.6991 -0.25071C30.8494 -0.186172 30.9778 -0.0785827 31.0683 0.0587966C31.1589 0.196176 31.2077 0.357346 31.2088 0.52243C31.2062 0.636904 31.1813 0.749738 31.1355 0.854462C31.0897 0.959186 31.0239 1.05373 30.9418 1.1327C30.8598 1.21167 30.7632 1.27351 30.6575 1.31466C30.5518 1.35581 30.4391 1.37547 30.3259 1.37251ZM29.6191 2.42155H31.0326V7.9325H29.6191V2.42155Z" fill="#D0043C"/><path d="M35.6699 7.93462L35.4346 7.44765C34.9931 7.85 34.4164 8.06696 33.8222 8.05427C33.5849 8.06903 33.3471 8.03389 33.1239 7.95109C32.9006 7.86829 32.6968 7.73963 32.5253 7.5732C32.3537 7.40678 32.2182 7.20623 32.1272 6.98419C32.0361 6.76214 31.9916 6.52342 31.9964 6.28312C31.9964 5.14017 32.9035 4.52244 34.328 4.47444L35.3169 4.43897V4.29983C35.3169 3.63548 34.8462 3.34401 34.2571 3.34401C33.7514 3.34117 33.2547 3.47855 32.8209 3.74121L32.3619 2.90156C33.0084 2.47657 33.7693 2.26465 34.5399 2.29497C35.9163 2.29497 36.7531 2.85148 36.7531 4.29983V6.4786C36.7237 6.96694 36.7589 7.45706 36.8577 7.936L35.6699 7.93462ZM35.3162 5.40591L34.5159 5.42886C33.7499 5.45182 33.4093 5.70714 33.4093 6.17462C33.4093 6.62818 33.7265 6.9433 34.3149 6.9433C34.6794 6.95528 35.0354 6.8315 35.3155 6.59547L35.3162 5.40591Z" fill="#D0043C"/><path d="M39.9541 8.05076C38.9652 8.05076 38.5778 7.5033 38.5778 6.75756V3.4713H37.5889V2.42294H38.5778V1.15198L39.9906 0.734589V2.42504H41.7207L41.3077 3.47338H39.9885V6.24695C39.9885 6.67825 40.1537 6.87303 40.5191 6.87303C40.8501 6.85857 41.1711 6.75402 41.4481 6.57042L41.8259 7.45599C41.2708 7.83098 40.621 8.03717 39.9534 8.05008" fill="#D0043C"/><path d="M43.7927 5.54574C43.8045 5.74106 43.8545 5.93207 43.9398 6.10773C44.0252 6.28338 44.1441 6.44019 44.2898 6.56907C44.4354 6.69795 44.6049 6.79635 44.7885 6.85855C44.972 6.92076 45.1659 6.94553 45.359 6.93146C45.8635 6.93951 46.3615 6.81512 46.8042 6.57043L47.1483 7.44415C46.548 7.84519 45.8432 8.05638 45.1237 8.05077C44.7476 8.07287 44.3713 8.01287 44.0202 7.87488C43.6691 7.73689 43.3515 7.52414 43.089 7.25105C42.8265 6.97796 42.6252 6.65094 42.4988 6.29223C42.3724 5.93352 42.3239 5.55151 42.3566 5.17216C42.3566 3.59859 43.2993 2.29355 44.8883 2.29355C46.394 2.29355 47.3829 3.42399 47.3829 5.13738V5.54574H43.7927ZM44.8532 3.34259C44.7022 3.34819 44.5538 3.38414 44.4167 3.44833C44.2795 3.51253 44.1564 3.60368 44.0545 3.71649C43.9525 3.82929 43.8739 3.96148 43.823 4.10535C43.7722 4.24921 43.7502 4.40187 43.7583 4.55442H45.9247C45.9357 4.40321 45.9165 4.2513 45.8682 4.10775C45.8199 3.9642 45.7436 3.83194 45.6436 3.71886C45.5437 3.60578 45.4223 3.51421 45.2866 3.44957C45.151 3.38492 45.0038 3.34853 44.8539 3.34259" fill="#D0043C"/><path d="M51.2214 8.05077C49.5615 8.05077 48.1935 7.08452 48.1935 5.21878C48.1901 4.81708 48.2692 4.41903 48.4256 4.04975C48.582 3.68046 48.8123 3.34794 49.1022 3.07312C49.392 2.7983 49.735 2.58715 50.1096 2.45298C50.4842 2.31881 50.8822 2.26452 51.2785 2.29355C51.5146 2.28887 51.7506 2.30469 51.9839 2.34085V-0.316528H53.3981V7.60834C52.7159 7.92628 51.9694 8.07782 51.2187 8.05077M51.9839 3.42398C51.7689 3.36615 51.5471 3.33854 51.3246 3.34191C50.8621 3.35771 50.424 3.55535 50.1035 3.89278C49.7829 4.2302 49.6053 4.68074 49.6085 5.14853C49.6116 5.61631 49.7952 6.06441 50.1203 6.3974C50.4453 6.7304 50.886 6.922 51.3487 6.93146C51.563 6.93171 51.7765 6.90438 51.9839 6.85008V3.42398Z" fill="#D0043C"/><path d="M2.60544 29.1958C2.33173 29.1962 2.0597 29.1525 1.79958 29.0664V31.8435H0.379883V23.7837C1.07913 23.5337 1.8156 23.4069 2.55726 23.4087C4.54539 23.4087 5.57421 24.4988 5.57421 26.2205C5.58632 26.6168 5.51761 27.0114 5.37232 27.3797C5.22704 27.7479 5.0083 28.082 4.72973 28.3612C4.45117 28.6403 4.11875 28.8584 3.75316 29.002C3.38757 29.1456 2.99665 29.2116 2.60474 29.1958M2.44991 24.5684C2.2303 24.567 2.01146 24.5946 1.7989 24.6505V27.9416C2.03321 28.0329 2.28207 28.08 2.53318 28.0807C3.52759 28.0807 4.09464 27.3663 4.09464 26.288C4.11821 26.0611 4.09233 25.8317 4.01881 25.616C3.94529 25.4002 3.82591 25.2034 3.66908 25.0393C3.51225 24.8752 3.32177 24.7478 3.11102 24.6661C2.90028 24.5844 2.67438 24.5503 2.44922 24.5663" fill="#9B9A9A"/><path d="M7.75674 29.1958C7.58868 29.2222 7.41689 29.2096 7.25435 29.159C7.09181 29.1083 6.94279 29.021 6.81855 28.9036C6.69431 28.7862 6.59812 28.6418 6.53724 28.4812C6.47635 28.3207 6.45237 28.1483 6.46711 27.977V20.7847H7.8868V27.3565C7.8868 27.7669 7.97009 27.9304 8.26531 27.9304C8.4047 27.9264 8.54322 27.9066 8.67822 27.8713L8.85644 28.9147C8.51846 29.0998 8.13973 29.1955 7.75538 29.193" fill="#9B9A9A"/><path d="M11.8766 29.1958C11.5034 29.2154 11.1302 29.1543 10.7821 29.0166C10.4341 28.879 10.119 28.6678 9.85807 28.3973C9.5971 28.1268 9.39621 27.8031 9.26879 27.4479C9.14137 27.0927 9.09035 26.7141 9.11913 26.3374C9.10789 25.9495 9.17522 25.5634 9.31697 25.2028C9.45872 24.8422 9.67189 24.5147 9.94342 24.2404C10.2149 23.9661 10.5391 23.7509 10.8959 23.6078C11.2527 23.4648 11.6347 23.397 12.0184 23.4087C12.576 23.3866 13.1289 23.5201 13.6163 23.7948L13.5923 24.9433C13.1878 24.6344 12.6917 24.4733 12.1849 24.4862C11.959 24.4867 11.7355 24.534 11.5284 24.6252C11.3212 24.7165 11.1348 24.8497 10.9806 25.0167C10.8264 25.1837 10.7078 25.3809 10.6321 25.5961C10.5563 25.8113 10.5251 26.0399 10.5402 26.2678C10.5161 26.4971 10.5406 26.7289 10.6121 26.9479C10.6837 27.1669 10.8006 27.3679 10.9551 27.5375C11.1096 27.7072 11.2981 27.8416 11.508 27.9318C11.7179 28.022 11.9445 28.0658 12.1725 28.0605C12.6413 28.0562 13.0999 27.9222 13.4986 27.673L13.8531 28.5989C13.2615 28.9794 12.577 29.1863 11.8759 29.1965" fill="#9B9A9A"/></g></svg></div>
+  <div class="title">Pitch scoring</div>
+  <div class="fp" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="108" height="25" fill="none" viewBox="0 0 108 25"><path fill="#2D2D2D" d="M10.778.038V2.93H3.492v4.88h5.838V10.6H3.493v7.669H.035V.038zM17.795 5.099q1.998 0 3.576.803a6 6 0 0 1 2.516 2.338q.912 1.51.912 3.566 0 2.054-.912 3.566a6.2 6.2 0 0 1-2.516 2.338q-1.578.803-3.576.803t-3.6-.803a6.23 6.23 0 0 1-2.492-2.338q-.912-1.512-.912-3.566 0-2.055.912-3.566a6 6 0 0 1 2.491-2.338q1.605-.803 3.601-.803m0 2.88q-1.455 0-2.466.993-1.011.968-1.011 2.834t1.01 2.857q1.012.969 2.467.969t2.466-.969q1.012-.99 1.012-2.857 0-1.866-1.012-2.834-1.011-.993-2.466-.992M33.19 5.048q1.996 0 3.576.803a6 6 0 0 1 2.515 2.338q.913 1.511.913 3.566t-.913 3.566a6.2 6.2 0 0 1-2.515 2.338q-1.58.803-3.576.803-1.998 0-3.601-.803a6.23 6.23 0 0 1-2.49-2.338q-.914-1.512-.913-3.566 0-2.055.912-3.566A6 6 0 0 1 29.59 5.85q1.603-.803 3.6-.803m0 2.881q-1.455 0-2.467.992-1.01.968-1.01 2.834 0 1.865 1.01 2.858 1.012.968 2.467.968t2.466-.968q1.011-.992 1.011-2.858t-1.011-2.834q-1.011-.992-2.466-.992M77.41 5.099q1.998 0 3.576.803a6 6 0 0 1 2.516 2.338q.912 1.51.913 3.566 0 2.054-.913 3.566a6.2 6.2 0 0 1-2.516 2.338q-1.578.803-3.576.803t-3.6-.803a6.23 6.23 0 0 1-2.491-2.338q-.913-1.512-.913-3.566 0-2.055.913-3.566a6 6 0 0 1 2.49-2.338q1.605-.803 3.601-.803m0 2.88q-1.455 0-2.466.993-1.011.968-1.011 2.834t1.011 2.857q1.011.969 2.466.969t2.467-.969q1.01-.99 1.01-2.857 0-1.866-1.01-2.834-1.012-.993-2.467-.992M92.805 5.048q1.998 0 3.576.803a6 6 0 0 1 2.516 2.338q.912 1.511.912 3.566t-.912 3.566a6.2 6.2 0 0 1-2.516 2.338q-1.578.803-3.576.803t-3.6-.803a6.23 6.23 0 0 1-2.492-2.338q-.912-1.512-.912-3.566 0-2.055.912-3.566a6 6 0 0 1 2.491-2.338q1.604-.803 3.6-.803m0 2.881q-1.455 0-2.466.992-1.011.968-1.011 2.834 0 1.865 1.01 2.858 1.012.968 2.467.968t2.466-.968q1.011-.992 1.011-2.858t-1.01-2.834q-1.012-.992-2.467-.992M45.045.038v18.23H41.51V.038zM65.308 7.716a5.5 5.5 0 0 1 2.022-1.96q1.258-.733 2.811-.733V8.59h-1.01q-3.824 0-3.823 3.4v6.306H61.83V5.212h3.478zM108 2.946q-1.529-.094-2.145.425t-.617 1.818v.024H108v2.81h-2.762v10.274h-3.477V8.023h-1.751v-2.81h1.751v-.307q0-2.338 1.381-3.59 1.405-1.275 4.143-1.275.47 0 .715.024z"/><path fill="#2D2D2D" fill-rule="evenodd" d="M49.844 16.947c.858.95 2.308 1.516 4.079 1.516 2.845 0 6.441-2.159 6.441-6.682 0-4.55-3.462-6.682-6.495-6.682-1.798 0-3.167.72-4.026 1.722V5.356h-3.238v18.76h3.239zm3.866-9.07q-1.456 0-2.467.992-1.01.968-1.01 2.834t1.01 2.858q1.012.968 2.467.968t2.466-.968q1.011-.993 1.011-2.858t-1.011-2.834q-1.011-.992-2.466-.992" clip-rule="evenodd"/></svg></div>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">Judges' scorecard</div>
+  <h1 id="h1">Score the pitches.</h1>
+  <p class="stand">Slide to give each group a mark on three criteria. A full scorecard adds up to 100. You can come back and change your marks until judging closes.</p>
+  <div class="criteria" id="criteria"></div>
+</div></header>
+
+<nav><div class="wrap" role="tablist" aria-label="Views">
+  <button role="tab" id="tab-score" aria-controls="view-score" aria-selected="true">Score</button>
+  <button role="tab" id="tab-results" aria-controls="view-results" aria-selected="false">Results</button>
+  <a class="back" href="../">Retail Safari</a>
+</div></nav>
+
+<main><div class="wrap">
+
+  <div class="view" id="view-score" role="tabpanel" aria-labelledby="tab-score">
+    <form id="form" novalidate>
+      <div class="panel panel-pad field">
+        <label for="judge">Your name</label>
+        <input id="judge" name="judge" autocomplete="name" maxlength="40" enterkeyhint="next" aria-describedby="judge-note">
+        <p class="note" id="judge-note" role="status">Use the same name each time. Scores are saved against it.</p>
+      </div>
+
+      <div class="sec-head"><h2>The groups</h2></div>
+      <div id="groups"></div>
+
+      <div class="panel panel-pad done-panel" id="done" hidden tabindex="-1">
+        <h2>Scores saved.</h2>
+        <p id="done-text"></p>
+        <div class="done-actions">
+          <button type="button" class="btn" id="go-results">See the results</button>
+        </div>
+      </div>
+
+      <div class="bar"><div class="wrap">
+        <div class="progress">
+          <div class="txt" id="ptxt" role="status"></div>
+          <div class="track"><i id="pbar"></i></div>
+        </div>
+        <button class="btn" id="submit" type="submit">Submit scores</button>
+      </div></div>
+    </form>
+  </div>
+
+  <div class="view" id="view-results" role="tabpanel" aria-labelledby="tab-results" hidden>
+    <div class="sec-head" style="margin-top:0">
+      <h2>Leaderboard</h2>
+      <span><span class="meta" id="rmeta" role="status"></span> <button type="button" class="btn ghost" id="refresh">Refresh</button></span>
+    </div>
+    <div class="panel" id="lead-panel"><ol class="lead" id="lead"></ol></div>
+    <div class="legend" id="legend"></div>
+
+    <div id="tables" hidden>
+      <div class="sec-head"><h2>Average by criterion</h2></div>
+      <div class="panel scroll"><table>
+        <thead><tr><th>Group</th><th>Insight<span class="long"> /40</span></th><th><span class="long">Use of </span>AI<span class="long"> /30</span></th><th>Outcome<span class="long"> /30</span></th><th>Total<span class="long"> /100</span></th></tr></thead>
+        <tbody id="avg-rows"></tbody>
+      </table></div>
+
+      <div class="sec-head"><h2>Totals by judge</h2><span class="hint">Each judge's mark out of 100</span></div>
+      <div class="panel scroll"><table>
+        <thead id="judge-head"></thead>
+        <tbody id="judge-rows"></tbody>
+      </table></div>
+    </div>
+  </div>
+
+</div></main>
+
+<footer><div class="wrap">
+  <span class="f-left">Pitch scoring</span>
+  <span class="f-right">Insight · Use of AI · Outcome</span>
+</div></footer>
+
+<script>
+// Supabase vote store. The publishable key is designed to sit in a public page. Never put a secret key here.
+const SUPABASE_URL = "https://wamzspbffvtawntpunbx.supabase.co";
+const SUPABASE_KEY = "sb_publishable_Ka2jONYVzgbFMQE2FOaYJA_QMIHJE3Z";
+
+// Add or remove groups here (ids g1 to g5 are accepted by the database).
+// If you change maximums, change them in setup.sql too.
+const GROUPS = [
+  { id: "g1", label: "Group 1", who: "Phil Packman, Beki Goddard, Rob Delicata" },
+  { id: "g2", label: "Group 2", who: "Jas Pham, Mark Branwhite, Matt Cade" },
+  { id: "g3", label: "Group 3", who: "Shiobhan Richards, Nick Denye, Carly Nair, Justin Parks" }
+];
+const CRITERIA = [
+  { id: "insight", label: "Insight", max: 40, blurb: "How sharp is the observation behind the idea?" },
+  { id: "ai", label: "Use of AI", max: 30, blurb: "How well did they put AI to work?" },
+  { id: "outcome", label: "Outcome", max: 30, blurb: "How strong is what they made and pitched?" }
+];
+
+const API = SUPABASE_URL.replace(/\/$/, "") + "/rest/v1/votes";
+const HEAD = { apikey: SUPABASE_KEY };
+const $ = (id) => document.getElementById(id);
+const el = (tag, props = {}, kids = []) => {
+  const n = Object.assign(document.createElement(tag), props);
+  kids.forEach((k) => n.append(k));
+  return n;
+};
+const fmt = (n) => (Math.round(n * 10) / 10).toString();
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+async function fail(res) {
+  let m = res.status + " " + res.statusText;
+  try { const j = await res.json(); m = j.message || m; } catch (e) {}
+  throw new Error(m);
+}
+
+/* ---------- build ---------- */
+const NUM = ["zero", "one", "two", "three", "four", "five"][GROUPS.length] || String(GROUPS.length);
+$("h1").textContent = "Score the " + NUM + " pitches.";
+CRITERIA.forEach((c) => {
+  $("criteria").append(el("div", { className: "s" }, [
+    el("div", { className: "n" }, [String(c.max), el("small", { textContent: "pts" })]),
+    el("p", {}, [el("b", { textContent: c.label }), el("span", { textContent: " " + c.blurb })])
+  ]));
+  $("legend").append(el("span", {}, [el("i", { className: "c-" + c.id }), c.label]));
+});
+
+const field = (g, c) => $(g.id + "-" + c.id);
+GROUPS.forEach((g, i) => {
+  const total = el("div", { className: "gtotal", id: g.id + "-total" }, [el("b", { textContent: "0" }), el("span", { textContent: " / 100" })]);
+  const head = el("div", { className: "group-head" }, [
+    el("span", { className: "dot" }),
+    el("span", { className: "idx", textContent: "0" + (i + 1) }),
+    el("span", {}, [el("span", { className: "gtitle", textContent: g.label }), el("span", { className: "gwho", textContent: g.who })]),
+    total
+  ]);
+  const scores = el("div", { className: "scores" });
+  CRITERIA.forEach((c) => {
+    const id = g.id + "-" + c.id;
+    const input = el("input", { id, type: "range", min: 0, max: c.max, step: 1, value: 0 });
+    input.setAttribute("aria-label", g.label + ", " + c.label + ", out of " + c.max);
+    input.setAttribute("aria-valuetext", "Not scored yet");
+    const touched = () => { setMark(input, c, Number(input.value)); showGroupError(g); update(); saveDraft(); };
+    // "input" fires while dragging; pointerdown/keydown count a tap or key press that leaves the mark at 0.
+    input.addEventListener("input", touched);
+    input.addEventListener("pointerup", touched);
+    input.addEventListener("keyup", (e) => { if (/^(Arrow|Home|End|Page)/.test(e.key)) touched(); });
+    const step = (d, label) => {
+      const b = el("button", { type: "button", className: "step", textContent: d < 0 ? "\u2212" : "+" });
+      b.setAttribute("aria-label", label + " " + c.label + " for " + g.label + " by 1");
+      b.addEventListener("click", () => { input.value = Math.min(c.max, Math.max(0, Number(input.value) + (input.dataset.set ? d : Math.max(d, 0)))); touched(); });
+      return b;
+    };
+    scores.append(el("div", { className: "score unset", id: id + "-row" }, [
+      el("div", { className: "srow" }, [
+        el("label", { htmlFor: id, textContent: c.label }),
+        el("span", { className: "sval" }, [el("b", { id: id + "-out", textContent: "\u2013" }), el("span", { textContent: " /" + c.max })])
+      ]),
+      el("div", { className: "slide" }, [step(-1, "Lower"), input, step(1, "Raise")])
+    ]));
+  });
+  const err = el("p", { className: "gerr", id: g.id + "-err", hidden: true });
+  err.setAttribute("role", "alert");
+  $("groups").append(el("section", { className: "panel " + g.id }, [head, scores, err]));
+});
+
+/* ---------- scoring form ---------- */
+// A slider always has a number, so "scored" is tracked separately: a mark counts once the judge has touched it.
+function setMark(input, c, v) {
+  v = Math.min(c.max, Math.max(0, Math.round(Number(v))));
+  input.value = v;
+  input.dataset.set = "1";
+  input.style.setProperty("--p", (v / c.max * 100) + "%");
+  input.setAttribute("aria-valuetext", v + " out of " + c.max);
+  $(input.id + "-out").textContent = v;
+  $(input.id + "-row").classList.remove("unset", "bad");
+}
+function value(input) { return input.dataset.set ? Number(input.value) : null; }
+function check(input, c, requireValue) {
+  const bad = requireValue && value(input) === null;
+  $(input.id + "-row").classList.toggle("bad", bad);
+  return !bad;
+}
+function showGroupError(g, requireValue) {
+  const probs = requireValue ? CRITERIA.filter((c) => value(field(g, c)) === null) : [];
+  const p = $(g.id + "-err");
+  p.hidden = !probs.length;
+  p.textContent = probs.length
+    ? "Still to score: " + probs.map((c) => c.label).join(", ") + "."
+    : "";
+  return !probs.length;
+}
+function groupDone(g) { return CRITERIA.every((c) => value(field(g, c)) !== null); }
+function update() {
+  let done = 0;
+  GROUPS.forEach((g) => {
+    const t = CRITERIA.reduce((s, c) => s + (value(field(g, c)) || 0), 0);
+    const box = $(g.id + "-total");
+    box.firstChild.textContent = fmt(t);
+    const ok = groupDone(g);
+    box.classList.toggle("done", ok);
+    if (ok) done++;
+  });
+  $("pbar").style.width = (done / GROUPS.length * 100) + "%";
+  if (!busy) progress(done === GROUPS.length ? "All " + GROUPS.length + " groups scored. Ready to submit." : done + " of " + GROUPS.length + " groups scored");
+}
+function progress(text, bad) { $("ptxt").textContent = text; $("ptxt").className = "txt" + (bad ? " bad" : ""); }
+
+function saveDraft() {
+  const d = {};
+  GROUPS.forEach((g) => CRITERIA.forEach((c) => { const v = value(field(g, c)); if (v !== null) d[g.id + "-" + c.id] = v; }));
+  store.set("scoring-draft", d);
+}
+function fill(map) {
+  GROUPS.forEach((g) => CRITERIA.forEach((c) => {
+    const v = map[g.id + "-" + c.id];
+    if (v !== undefined && v !== null && v !== "" && !isNaN(Number(v))) setMark(field(g, c), c, v);
+  }));
+  update();
+}
+const formEmpty = () => GROUPS.every((g) => CRITERIA.every((c) => value(field(g, c)) === null));
+
+// When a judge who has already voted types their name, bring their marks back.
+let lastLookup = "";
+async function lookup() {
+  const name = $("judge").value.trim();
+  store.set("scoring-judge", name);
+  if (!name || name.toLowerCase() === lastLookup) return;
+  lastLookup = name.toLowerCase();
+  try {
+    const res = await fetch(API + "?select=group_id,insight,ai,outcome&judge_key=eq." + encodeURIComponent(name.toLowerCase()), { headers: HEAD });
+    if (!res.ok) return;
+    const rows = await res.json();
+    const note = $("judge-note");
+    if (!rows.length) { note.textContent = "Use the same name each time. Scores are saved against it."; note.className = "note"; $("submit").textContent = "Submit scores"; return; }
+    $("submit").textContent = "Update my scores";
+    note.className = "note info";
+    if (formEmpty()) {
+      const map = {};
+      rows.forEach((r) => CRITERIA.forEach((c) => { map[r.group_id + "-" + c.id] = r[c.id]; }));
+      fill(map);
+      note.textContent = "Welcome back. Your saved marks are loaded below. Change any of them and submit again.";
+    } else {
+      note.textContent = "Scores already exist under this name. Submitting replaces them.";
+    }
+  } catch (e) {}
+}
+$("judge").addEventListener("blur", lookup);
+$("judge").addEventListener("input", () => { $("judge").classList.remove("bad"); });
+
+let busy = false;
+$("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (busy) return;
+  const judge = $("judge").value.trim();
+  let firstBad = null;
+  if (!judge) { $("judge").classList.add("bad"); firstBad = $("judge"); }
+  GROUPS.forEach((g) => {
+    CRITERIA.forEach((c) => { if (!check(field(g, c), c, true) && !firstBad) firstBad = field(g, c); });
+    showGroupError(g, true);
+  });
+  if (firstBad) {
+    progress(firstBad === $("judge") ? "Add your name to submit." : "Some marks are still to score.", true);
+    firstBad.focus();
+    firstBad.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    return;
+  }
+  busy = true;
+  $("submit").disabled = true;
+  const label = $("submit").textContent;
+  $("submit").textContent = "Saving...";
+  progress("Saving your scores...");
+  try {
+    const now = new Date().toISOString();
+    const rows = GROUPS.map((g) => {
+      const r = { judge, group_id: g.id, updated_at: now };
+      CRITERIA.forEach((c) => { r[c.id] = value(field(g, c)); });
+      return r;
+    });
+    // Upsert: a second submission under the same name overwrites the first.
+    const res = await fetch(API + "?on_conflict=judge_key,group_id", {
+      method: "POST",
+      headers: { ...HEAD, "Content-Type": "application/json", Prefer: "resolution=merge-duplicates,return=minimal" },
+      body: JSON.stringify(rows)
+    });
+    if (!res.ok) await fail(res);
+    store.set("scoring-draft", null);
+    lastLookup = judge.toLowerCase();
+    busy = false;
+    $("submit").textContent = "Update my scores";
+    $("done-text").textContent = "Thanks, " + judge + ". Your marks for all " + NUM + " groups are in. To change one, move its slider and submit again.";
+    $("done").hidden = false;
+    $("done").focus({ preventScroll: true });
+    $("done").scrollIntoView({ block: "center" });
+    progress("Saved at " + new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+  } catch (err) {
+    busy = false;
+    $("submit").textContent = label;
+    progress("Not saved. " + (navigator.onLine ? err.message : "You appear to be offline.") + " Your marks are still here, try again.", true);
+  } finally {
+    $("submit").disabled = false;
+  }
+});
+
+/* ---------- results ---------- */
+let timer = null, loadedOnce = false;
+function rowLabel(g) {
+  return el("span", { className: "lname " + g.id }, [el("span", { className: "dot" }), el("span", { className: "gtitle", textContent: g.label }), el("span", { className: "gwho", textContent: g.who })]);
+}
+async function loadResults() {
+  const lead = $("lead");
+  if (!loadedOnce) { lead.replaceChildren(...GROUPS.map(() => el("li", { className: "skel" }))); lead.querySelectorAll("li").forEach((li) => li.style.display = "block"); }
+  try {
+    const res = await fetch(API + "?select=judge,group_id,insight,ai,outcome&order=judge", { headers: HEAD });
+    if (!res.ok) await fail(res);
+    render(await res.json());
+    loadedOnce = true;
+  } catch (err) {
+    $("rmeta").textContent = "Could not load results. " + (navigator.onLine ? err.message : "You appear to be offline.");
+    if (!loadedOnce) lead.replaceChildren();
+  }
+}
+function render(rows) {
+  const judges = [...new Set(rows.map((r) => r.judge))];
+  const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  $("tables").hidden = !rows.length;
+  $("legend").hidden = !rows.length;
+  if (!rows.length) {
+    const b = el("button", { type: "button", className: "btn", textContent: "Score the pitches" });
+    b.addEventListener("click", () => show("score"));
+    $("lead").replaceChildren(el("li", { style: "display:block;padding:0;border:0" }, [el("div", { className: "empty" }, [
+      el("h3", { textContent: "No scores yet" }),
+      el("p", { textContent: "The leaderboard fills in as soon as the first judge submits a scorecard." }), b
+    ])]));
+    $("rmeta").textContent = "Checked " + time;
+    return;
+  }
+  const table = GROUPS.map((g) => {
+    const mine = rows.filter((r) => r.group_id === g.id);
+    const avg = CRITERIA.map((c) => mine.length ? mine.reduce((s, r) => s + Number(r[c.id]), 0) / mine.length : null);
+    return { g, avg, total: mine.length ? avg.reduce((s, v) => s + v, 0) : null };
+  }).sort((a, b) => (b.total ?? -1) - (a.total ?? -1));
+  let rank = 0, prev = null;
+  table.forEach((row, i) => { if (row.total !== prev) rank = i + 1; row.rank = rank; prev = row.total; });
+
+  $("lead").replaceChildren(...table.map((row) => {
+    const stack = el("div", { className: "stack" });
+    stack.setAttribute("role", "img");
+    stack.setAttribute("aria-label", row.total === null ? "No scores" : CRITERIA.map((c, i) => c.label + " " + fmt(row.avg[i])).join(", "));
+    CRITERIA.forEach((c, i) => { const s = el("i", { className: "c-" + c.id }); s.style.width = (row.avg[i] || 0) + "%"; stack.append(s); });
+    return el("li", { className: row.rank === 1 && row.total !== null ? "first" : "" }, [
+      el("span", { className: "rank", textContent: row.total === null ? "-" : String(row.rank) }),
+      rowLabel(row.g),
+      el("span", { className: "ltotal" }, [row.total === null ? "-" : fmt(row.total), el("small", { textContent: "/100" })]),
+      stack
+    ]);
+  }));
+
+  $("avg-rows").replaceChildren(...table.map((row) => el("tr", {}, [
+    el("td", {}, [row.g.label, el("span", { className: "long", textContent: " (" + row.g.who + ")" })]),
+    ...row.avg.map((v) => el("td", { textContent: v === null ? "-" : fmt(v) })),
+    el("td", { className: "total", textContent: row.total === null ? "-" : fmt(row.total) })
+  ])));
+
+  $("judge-head").replaceChildren(el("tr", {}, [el("th", { textContent: "Judge" }), ...GROUPS.map((g, i) => el("th", {}, [el("span", { className: "long", textContent: g.label }), el("span", { className: "short", textContent: "G" + (i + 1) })])), el("th", { textContent: "Mean" })]));
+  $("judge-rows").replaceChildren(...judges.map((j) => {
+    const totals = GROUPS.map((g) => {
+      const r = rows.find((x) => x.judge === j && x.group_id === g.id);
+      return r ? CRITERIA.reduce((s, c) => s + Number(r[c.id]), 0) : null;
+    });
+    const have = totals.filter((t) => t !== null);
+    return el("tr", {}, [
+      el("td", { textContent: j }),
+      ...totals.map((t) => el("td", { textContent: t === null ? "-" : fmt(t) })),
+      el("td", { className: "total", textContent: have.length ? fmt(have.reduce((s, v) => s + v, 0) / have.length) : "-" })
+    ]);
+  }));
+  $("rmeta").textContent = judges.length + " judge" + (judges.length === 1 ? "" : "s") + " in · updated " + time;
+}
+
+/* ---------- tabs ---------- */
+function show(which) {
+  const score = which === "score";
+  document.body.classList.toggle("scoring", score);
+  $("view-score").hidden = !score;
+  $("view-results").hidden = score;
+  $("tab-score").setAttribute("aria-selected", score);
+  $("tab-results").setAttribute("aria-selected", !score);
+  clearInterval(timer);
+  if (!score) { loadResults(); timer = setInterval(() => { if (!document.hidden) loadResults(); }, 20000); }
+  if (location.hash !== "#" + which) history.replaceState(null, "", "#" + which);
+  const top = document.querySelector("nav").offsetTop;
+  if (window.scrollY > top) window.scrollTo(0, top);
+}
+$("tab-score").addEventListener("click", () => show("score"));
+$("tab-results").addEventListener("click", () => show("results"));
+$("go-results").addEventListener("click", () => show("results"));
+$("refresh").addEventListener("click", loadResults);
+
+/* ---------- start ---------- */
+const savedName = store.get("scoring-judge");
+if (savedName) $("judge").value = savedName;
+const draft = store.get("scoring-draft");
+if (draft) fill(draft);
+update();
+if (savedName) lookup();
+if (location.hash === "#results") show("results");
+</script>
+</body>
+</html>

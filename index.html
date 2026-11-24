@@ -30,7 +30,10 @@
   .fp{width:108px;flex-shrink:0}
   .fp svg{width:108px;display:block}
   header.hero{background:var(--paper);border-bottom:1px solid var(--rule)}
-  header.hero .wrap{padding:48px 28px 44px}
+  header.hero .wrap{padding:48px 28px 44px;position:relative}
+  .vote-btn{position:absolute;top:8px;right:28px;font-family:var(--sans);font-size:13px;font-weight:700;line-height:1;color:#fff;background:var(--crimson);border:1px solid var(--crimson);border-radius:5px;padding:10px 16px;text-decoration:none;white-space:nowrap;transition:background .15s,border-color .15s}
+  .vote-btn:hover{background:#a8003e;border-color:#a8003e}
+  .vote-btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   .hero-top{display:flex;align-items:center;gap:40px}
   .hero-text{flex:1;min-width:0}
   .hero-img{flex:0 0 320px}
@@ -144,6 +147,7 @@
 </div></div>
 
 <header class="hero"><div class="wrap">
+  <a class="vote-btn" href="voting/">Join to vote</a>
   <div class="hero-top">
     <div class="hero-text">
       <div class="eyebrow">From shop floor to pitch</div>
