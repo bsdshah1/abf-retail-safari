@@ -4,16 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pitch scoring</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  /* Fonts are hosted in this repo (fonts/), so nothing loads from Google. Both are SIL Open Font License 1.1. */
+  @font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-display:swap;src:url('../fonts/archivo-latin-wght-normal.woff2') format('woff2')}
+  @font-face{font-family:'Archivo';font-style:italic;font-weight:100 900;font-display:swap;src:url('../fonts/archivo-latin-wght-italic.woff2') format('woff2')}
+  @font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/ibm-plex-sans-latin-400-normal.woff2') format('woff2')}
+  @font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:500;font-display:swap;src:url('../fonts/ibm-plex-sans-latin-500-normal.woff2') format('woff2')}
+  @font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:600;font-display:swap;src:url('../fonts/ibm-plex-sans-latin-600-normal.woff2') format('woff2')}
+  @font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:700;font-display:swap;src:url('../fonts/ibm-plex-sans-latin-700-normal.woff2') format('woff2')}
   /* Tokens, type and component shapes are taken from the Retail Safari page. */
   :root{
     --ink:#221c28;--crimson:#D6004F;--crimson-deep:#a8003e;--paper:#ffffff;--page:#f6f1f3;--rule:#e8e0e4;--rule-strong:#dccfd6;
     --muted:#6a6473;--ink-soft:#4a4453;--amber:#f6c560;--ok:#0b6b3a;--tint:#fbf6f4;
     --retail:#00B4E1;--grocery:#0CAF9E;--ingredients:#F4881C;--sugar:#B31572;--agri:#058E32;
-    --serif:'Fraunces',Georgia,serif;--sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+    --display:'Archivo','Helvetica Neue',Arial,sans-serif;--sans:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:var(--sans);color:var(--ink);background:var(--page);line-height:1.55;-webkit-font-smoothing:antialiased}
@@ -25,7 +29,7 @@
   .masthead{background:#fff;border-bottom:1px solid #E0E0E0}
   .masthead .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;padding-bottom:12px}
   .abf,.abf svg{width:80px;height:40px;display:block;flex-shrink:0}
-  .masthead .title{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.15;letter-spacing:-.015em;color:#1A1A1A;text-align:center}
+  .masthead .title{font-family:var(--display);font-size:22px;font-weight:700;line-height:1.15;letter-spacing:-.015em;color:#1A1A1A;text-align:center}
   .fp,.fp svg{width:108px;display:block;flex-shrink:0}
 
   header.hero{background:var(--paper);border-bottom:1px solid var(--rule)}
@@ -34,13 +38,13 @@
   .hero-text{flex:1;min-width:0}
   .hero-img{flex:0 0 300px}
   .hero-img img{width:100%;height:auto;display:block}
-  header.hero h1{font-family:var(--serif);font-size:46px;line-height:1.04;font-weight:600;letter-spacing:-.015em;margin:14px 0 14px;text-wrap:balance}
+  header.hero h1{font-family:var(--display);font-size:46px;line-height:1.04;font-weight:600;letter-spacing:-.015em;margin:14px 0 14px;text-wrap:balance}
   header.hero .stand{font-size:17px;color:var(--ink-soft);max-width:60ch;line-height:1.6}
   .criteria{margin-top:28px;border-top:1px solid var(--rule);display:grid;grid-template-columns:repeat(3,1fr)}
   .criteria .s{padding:16px 22px 18px 0;border-right:1px solid var(--rule)}
   .criteria .s + .s{padding-left:22px}
   .criteria .s:last-child{border-right:none;padding-right:0}
-  .criteria .n{font-family:var(--serif);font-size:30px;font-weight:600;color:var(--crimson);line-height:1}
+  .criteria .n{font-family:var(--display);font-size:30px;font-weight:600;color:var(--crimson);line-height:1}
   .criteria .n small{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.02em;margin-left:4px}
   .criteria p{font-size:13.5px;color:var(--ink-soft);margin-top:6px}
   .criteria p b{color:var(--ink);font-weight:600}
@@ -60,7 +64,7 @@
   body.scoring footer{padding-bottom:78px}
   .short{display:none}
   .sec-head{margin:34px 0 16px;display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  .sec-head h2{font-family:var(--serif);font-size:27px;font-weight:600;letter-spacing:-.01em}
+  .sec-head h2{font-family:var(--display);font-size:27px;font-weight:600;letter-spacing:-.01em}
   .sec-head .hint{font-size:13px;color:var(--muted)}
 
   .panel{background:var(--paper);border:1px solid var(--rule);border-radius:6px;margin-bottom:16px}
@@ -77,14 +81,14 @@
   .group-head{display:flex;align-items:center;gap:13px;padding:20px 26px 0}
   .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
   .g1 .dot{background:var(--sugar)}.g2 .dot{background:var(--retail)}.g3 .dot{background:var(--grocery)}.g4 .dot{background:var(--ingredients)}.g5 .dot{background:var(--agri)}
-  .gtitle{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:-.01em;line-height:1.15}
+  .gtitle{font-family:var(--display);font-size:22px;font-weight:600;letter-spacing:-.01em;line-height:1.15}
   .gwho{font-size:13px;color:var(--muted);font-weight:500;line-height:1.4}
   .group-head .gwho{display:block;margin-top:3px}
   .group-head{align-items:flex-start}
   .group-head .dot{margin-top:9px}
   .lname .gwho{flex-basis:100%;padding-left:20px;margin-top:-4px}
   .gtotal{margin-left:auto;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .gtotal b{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1}
+  .gtotal b{font-family:var(--display);font-size:24px;font-weight:600;line-height:1}
   .gtotal span{font-size:12px;color:var(--muted);font-weight:600}
   .gtotal.done b{color:var(--ok)}
   .scores{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 30px;padding:16px 26px 20px}
@@ -128,7 +132,7 @@
   .btn.ghost:hover{border-color:var(--ink);color:var(--ink);background:transparent}
 
   .done-panel{border-color:#b9dcc7;background:#f3faf6}
-  .done-panel h2{font-family:var(--serif);font-size:25px;font-weight:600;letter-spacing:-.01em;margin-bottom:6px}
+  .done-panel h2{font-family:var(--display);font-size:25px;font-weight:600;letter-spacing:-.01em;margin-bottom:6px}
   .done-panel p{color:var(--ink-soft);max-width:60ch}
   .done-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
 
@@ -136,11 +140,11 @@
   .lead{list-style:none}
   .lead li{display:grid;grid-template-columns:34px 1fr auto;gap:8px 14px;align-items:start;padding:18px 26px;border-bottom:1px solid var(--rule)}
   .lead li:last-child{border-bottom:none}
-  .rank{font-family:var(--serif);font-size:24px;font-weight:600;color:var(--muted);line-height:1}
+  .rank{font-family:var(--display);font-size:24px;font-weight:600;color:var(--muted);line-height:1}
   .lead li.first .rank{color:var(--crimson)}
   .lname{display:flex;align-items:center;gap:10px;min-width:0;flex-wrap:wrap}
   .lname .gtitle{font-size:20px}
-  .ltotal{font-family:var(--serif);font-size:28px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1;text-align:right}
+  .ltotal{font-family:var(--display);font-size:28px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1;text-align:right}
   .ltotal small{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--muted);margin-left:3px}
   .stack{grid-column:2 / 4;display:flex;height:10px;background:var(--page);border-radius:2px;overflow:hidden}
   .stack i{display:block;height:100%}
@@ -157,7 +161,7 @@
   tbody tr:last-child td{border-bottom:none}
   td.total{font-weight:700}
   .empty{padding:44px 26px;text-align:center}
-  .empty h3{font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:6px}
+  .empty h3{font-family:var(--display);font-size:22px;font-weight:600;margin-bottom:6px}
   .empty p{color:var(--muted);max-width:44ch;margin:0 auto 18px}
   .meta{font-size:12.5px;color:var(--muted)}
   .skel{height:74px;border-bottom:1px solid var(--rule);background:linear-gradient(90deg,var(--paper) 0%,var(--tint) 50%,var(--paper) 100%);background-size:200% 100%;animation:sk 1.2s linear infinite}
@@ -165,7 +169,7 @@
 
   footer{border-top:1px solid var(--rule);background:var(--paper)}
   footer .wrap{padding-top:22px;padding-bottom:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-  footer .f-left{font-family:var(--serif);font-size:15px;font-weight:600}
+  footer .f-left{font-family:var(--display);font-size:15px;font-weight:600}
   footer .f-right{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
   #view-score ~ footer{margin-bottom:0}
 
